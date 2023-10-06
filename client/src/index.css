@@ -4,3 +4,18 @@
   box-sizing: border-box;
   color : #fff
 }
+
+
+
+
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+  color : #FFF !important ;
+  border-radius:  10px !important;
+  border:  1px solid #0DBADE;
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
+  color : #FFF !important ;
+  border-radius:  10px !important;
+  border:  1px solid #0DBADE;
+}

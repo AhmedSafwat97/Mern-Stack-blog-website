@@ -117,6 +117,9 @@ const Navbar = () => {
                     bgcolor: "#0DAEE",
                   },
                 }}
+                onClick={() => {
+                  Navigat("/Login")
+                }}
               >
                 Login
               </Button>
