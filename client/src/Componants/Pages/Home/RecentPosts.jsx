@@ -5,8 +5,39 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
+import { useQuery } from "@tanstack/react-query";
+import MailLink from "../../MainLink";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RecentPosts = () => {
+
+  const navigate = useNavigate()
+  const queryKey = ["posts"];
+
+  // Define a function to fetch the data from your API
+  const fetchData = async () => {
+    const response = await axios.get(
+      `${MailLink}/api/v1/post?page=1&limit=20`
+    ); // Replace with your API endpoint
+    return response.data;
+  };
+
+  // Use the useQuery hook to fetch and manage the data
+  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+
+  console.log(data);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
+
+
+
   return (
     <Box>
       <Box sx={{ width: "75%", m: "auto" }}>
@@ -26,41 +57,44 @@ const RecentPosts = () => {
             flexWrap: "wrap",
           }}
         >
-          <Card
+       {data?.data.slice(-4).reverse().map((posts) => (
+            <Card
+            key={posts._id}
             sx={{
-              maxWidth: { xs: "280px", md: "400px" },
+              width: { xs: "280px", md: "400px" },
               bgcolor: "#222F43",
               m: "10px",
               p: "15px 10px",
               borderRadius: "15px",
               cursor: "pointer",
             }}
+            onClick={() => {
+              navigate(`/postDetails/${posts._id}`)
+            }}
           >
             <CardMedia
               sx={{ borderRadius: "15px" }}
               component="img"
               height="170"
-              image="../../../../Imgs/blog1.jpg"
+              image={posts.imageCover}
               alt="Paella dish"
             />
-
+    
             <Box sx={{ display: "flex" }}>
               <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
+                {posts.category.name}
               </Typography>
-              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
-              </Typography>
+              
             </Box>
             <Box>
               <Typography
                 variant="h6"
                 sx={{ fontSize: "18px", fontWeight: "600" }}
               >
-                Master The Art Of Nature with These 7 Tips
+                {posts.title}
               </Typography>
             </Box>
-
+    
             <Box
               sx={{
                 display: "flex",
@@ -71,16 +105,17 @@ const RecentPosts = () => {
               <Box sx={{ display: "flex", mt: "10px" }}>
                 <Avatar
                   sx={{ bgcolor: red[500], mr: "10px" }}
-                  aria-label="recipe"
+                  aria-label="profile"
+                  src={posts.author.profileimage}
                 >
-                  R
+                  {posts.author.FirstName[0]}
                 </Avatar>
                 <Box>
                   <Typography sx={{ fontSize: "12px", color: "gray" }}>
-                    Chorizo Paella
+                    {posts.author.FirstName} {posts.author.LastName}
                   </Typography>
                   <Typography sx={{ fontSize: "10px", color: "gray" }}>
-                    September 14, 2016
+                    {posts.postedAt}
                   </Typography>
                 </Box>
               </Box>
@@ -89,195 +124,7 @@ const RecentPosts = () => {
               </Typography>
             </Box>
           </Card>
-          <Card
-            sx={{
-              maxWidth: { xs: "280px", md: "500px" },
-              bgcolor: "#222F43",
-              m: "10px",
-              p: "15px 10px",
-              borderRadius: "15px",
-              cursor: "pointer",
-            }}
-          >
-            <CardMedia
-              sx={{ borderRadius: "15px" }}
-              component="img"
-              height="170"
-              image="../../../../Imgs/blog1.jpg"
-              alt="Paella dish"
-            />
-
-            <Box sx={{ display: "flex" }}>
-              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
-              </Typography>
-              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                variant="h6"
-                sx={{ fontSize: "18px", fontWeight: "600" }}
-              >
-                Master The Art Of Nature with These 7 Tips
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ display: "flex", mt: "10px" }}>
-                <Avatar
-                  sx={{ bgcolor: red[500], mr: "10px" }}
-                  aria-label="recipe"
-                >
-                  R
-                </Avatar>
-                <Box>
-                  <Typography sx={{ fontSize: "12px", color: "gray" }}>
-                    Chorizo Paella
-                  </Typography>
-                  <Typography sx={{ fontSize: "10px", color: "gray" }}>
-                    September 14, 2016
-                  </Typography>
-                </Box>
-              </Box>
-              <Typography sx={{ color: "gray", fontSize: "12px" }}>
-                Read More
-              </Typography>
-            </Box>
-          </Card>
-          <Card
-            sx={{
-              maxWidth: { xs: "280px", md: "500px" },
-              bgcolor: "#222F43",
-              m: "10px",
-              p: "15px 10px",
-              borderRadius: "15px",
-              cursor: "pointer",
-            }}
-          >
-            <CardMedia
-              sx={{ borderRadius: "15px" }}
-              component="img"
-              height="170"
-              image="../../../../Imgs/blog1.jpg"
-              alt="Paella dish"
-            />
-
-            <Box sx={{ display: "flex" }}>
-              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
-              </Typography>
-              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                variant="h6"
-                sx={{ fontSize: "18px", fontWeight: "600" }}
-              >
-                Master The Art Of Nature with These 7 Tips
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ display: "flex", mt: "10px" }}>
-                <Avatar
-                  sx={{ bgcolor: red[500], mr: "10px" }}
-                  aria-label="recipe"
-                >
-                  R
-                </Avatar>
-                <Box>
-                  <Typography sx={{ fontSize: "12px", color: "gray" }}>
-                    Chorizo Paella
-                  </Typography>
-                  <Typography sx={{ fontSize: "10px", color: "gray" }}>
-                    September 14, 2016
-                  </Typography>
-                </Box>
-              </Box>
-              <Typography sx={{ color: "gray", fontSize: "12px" }}>
-                Read More
-              </Typography>
-            </Box>
-          </Card>
-          <Card
-            sx={{
-              maxWidth: { xs: "280px", md: "500px" },
-              bgcolor: "#222F43",
-              m: "10px",
-              p: "15px 10px",
-              borderRadius: "15px",
-              cursor: "pointer",
-            }}
-          >
-            <CardMedia
-              sx={{ borderRadius: "15px" }}
-              component="img"
-              height="170"
-              image="../../../../Imgs/blog1.jpg"
-              alt="Paella dish"
-            />
-
-            <Box sx={{ display: "flex" }}>
-              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
-              </Typography>
-              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
-                #Nature
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                variant="h6"
-                sx={{ fontSize: "18px", fontWeight: "600" }}
-              >
-                Master The Art Of Nature with These 7 Tips
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ display: "flex", mt: "10px" }}>
-                <Avatar
-                  sx={{ bgcolor: red[500], mr: "10px" }}
-                  aria-label="recipe"
-                >
-                  R
-                </Avatar>
-                <Box>
-                  <Typography sx={{ fontSize: "12px", color: "gray" }}>
-                    Chorizo Paella
-                  </Typography>
-                  <Typography sx={{ fontSize: "10px", color: "gray" }}>
-                    September 14, 2016
-                  </Typography>
-                </Box>
-              </Box>
-              <Typography sx={{ color: "gray", fontSize: "12px" }}>
-                Read More
-              </Typography>
-            </Box>
-          </Card>
+       ))}
         </Box>
       </Box>
     </Box>

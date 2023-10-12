@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import MailLink from "../../MainLink";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -24,6 +22,39 @@ const SignUp = () => {
   };
 
   const Navigat = useNavigate();
+
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
+
+  const submitSignIn = async () => {
+    try {
+      const response = await axios.post(`${MailLink}/api/v1/auth/signup`, {
+        Email: Email,
+        password: password,
+        FirstName : FirstName , 
+        LastName : LastName
+      });
+      console.log("Response from POST request:", response.data);
+    
+      // Handle successful response here
+    } catch (error) {
+      if (error.response) {
+        // The request was made, but the server responded with an error status code
+        console.error("Response error data:", error.response.data);
+        console.error("Response error status:", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("Request error:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an error
+        console.error("General error:", error.message);
+      }
+    }
+
+ 
+  };
 
   return (
     <Box>
@@ -59,7 +90,12 @@ const SignUp = () => {
             variant="filled"
           >
             <InputLabel sx={{ color: "#FFF" }}>First name</InputLabel>
-            <OutlinedInput label="FirstName" />
+            <OutlinedInput
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+              label="FirstName"
+            />
           </FormControl>
 
           <FormControl
@@ -67,7 +103,12 @@ const SignUp = () => {
             variant="filled"
           >
             <InputLabel sx={{ color: "#FFF" }}>Last name</InputLabel>
-            <OutlinedInput label="lastName" />
+            <OutlinedInput
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+              label="lastName"
+            />
           </FormControl>
 
           <FormControl
@@ -75,7 +116,12 @@ const SignUp = () => {
             variant="filled"
           >
             <InputLabel sx={{ color: "#FFF" }}>Email</InputLabel>
-            <OutlinedInput label="Email" />
+            <OutlinedInput
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              label="Email"
+            />
           </FormControl>
 
           <FormControl
@@ -89,6 +135,9 @@ const SignUp = () => {
               Password
             </InputLabel>
             <OutlinedInput
+              onChange={(e) => {
+                setpassword(e.target.value);
+              }}
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
               endAdornment={
@@ -120,6 +169,7 @@ const SignUp = () => {
               },
             }}
             onClick={() => {
+              submitSignIn()
               Navigat("/Login");
             }}
           >

@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Typography } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import MailLink from "../../MainLink";
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [Email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -24,6 +25,56 @@ const Login = () => {
   };
 
   const Navigat = useNavigate();
+
+
+
+  const submitlogin = useMutation((Login) => {
+    return axios.post(`${MailLink}/api/v1/auth/login`, Login);
+  }, {
+    onSuccess: (data) => {
+      console.log("Response from POST request:", data);
+      const token = data.data.token
+      console.log(token);
+      
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+
+        Navigat("/")
+
+    },
+  });
+  //   try {
+  //     const response = await axios.post("http://localhost:5000/api/v1/auth/login", {
+  //       Email: Email,
+  //       password: password,
+  //     });
+  //     console.log("Response from POST request:", response.data.token);
+
+  //     const token = response.data.token
+
+  //     if (token) {
+  //       localStorage.setItem("token", token);
+  //       // Navigate to the desired path after setting the token
+  //     }
+
+  //   } catch (error) {
+  //     if (error.response) {
+  //       // The request was made, but the server responded with an error status code
+  //       console.error("Response error data:", error.response.data);
+  //       console.error("Response error status:", error.response.status);
+  //     } else if (error.request) {
+  //       // The request was made but no response was received
+  //       console.error("Request error:", error.request);
+  //     } else {
+  //       // Something happened in setting up the request that triggered an error
+  //       console.error("General error:", error.message);
+  //     }
+  //   }
+
+  // };
+
+
 
   return (
     <Box>
@@ -40,6 +91,10 @@ const Login = () => {
             Welcome back !
           </Typography>
         </Box>
+
+        {submitlogin.isError && (
+            <Typography sx={{mb : "10px"}}>invalid email or password</Typography>
+          )}
 
         <Box
           sx={{
@@ -59,7 +114,12 @@ const Login = () => {
             variant="filled"
           >
             <InputLabel sx={{ color: "#FFF" }}>Email</InputLabel>
-            <OutlinedInput label="Email" />
+            <OutlinedInput
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              label="Email"
+            />
           </FormControl>
 
           <FormControl
@@ -75,6 +135,9 @@ const Login = () => {
             <OutlinedInput
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
+              onChange={(e) => {
+                setpassword(e.target.value);
+              }}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -95,24 +158,25 @@ const Login = () => {
             Forgot Password
           </Typography>
 
-          <Button
-            sx={{
-              color: "black",
-              bgcolor: "#0DAEE4",
-              borderRadius: "10px",
-              width: "30ch",
-              height: "fit-content",
-              ":hover": {
-                bgcolor: "#0DAEE",
-                color: "#FFF",
-              },
-            }}
-            onClick={() => {
-              Navigat("/Login");
-            }}
-          >
-            Log Me In
-          </Button>
+            <Button
+              sx={{
+                color: "black",
+                bgcolor: "#0DAEE4",
+                borderRadius: "10px",
+                width: "30ch",
+                height: "fit-content",
+                ":hover": {
+                  bgcolor: "#0DAEE",
+                  color: "#FFF",
+                },
+              }}
+              onClick={() => {
+                submitlogin.mutate({ Email: Email, password: password });
+
+              }}
+            >
+              { submitlogin.isLoading ?  <CircularProgress /> : "Log Me In"  }
+            </Button>
 
           <Box
             sx={{
@@ -127,10 +191,11 @@ const Login = () => {
             </Typography>
 
             <Typography
-            onClick={() => {
-                Navigat("/SignUp")
-            }} 
-            sx={{ color: "#0DBADE", cursor: "pointer"}}>
+              onClick={() => {
+                Navigat("/SignUp");
+              }}
+              sx={{ color: "#0DBADE", cursor: "pointer" }}
+            >
               Sign Up
             </Typography>
           </Box>

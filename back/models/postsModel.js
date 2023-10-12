@@ -5,18 +5,21 @@ const PostSchema = new mongoose.Schema(
     title : {
       type: String,
       minlength: [3, 'Too short Title name'],
-      maxlength: [32, 'Too long Title name'],
+      maxlength: [100, 'Too long Title name'],
+      // required: [true, 'title required'],
+
     },
     imageCover : {
         type: String,
-        // required: [true, 'content required'],
+        // required: [true, 'image required'],
     } ,
-    image: [String], 
     content : {
         type: String,
-        required: [true, 'content required'],
+        // required: [true, 'content required'],
         minlength: [3, 'Too short Title name'],
-        maxlength: [250, 'Too long Title name'],
+        // maxlength: [1000, 'Too long Title name'],
+        // required: [true, 'content required'],
+
     } ,
     // A and B => shoping.com/a-and-b
     slug: {
@@ -26,12 +29,28 @@ const PostSchema = new mongoose.Schema(
     category : {
         type : mongoose.Schema.ObjectId ,
         ref : "Category",
-        required : [true , "Post must belong to category"]
+        // required : [true , "Post must belong to category"]
+    } ,
+    author: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+    postedAt : {
+      type : String,
+    } , 
+    posttime : {
+      type : String,
     }
-
   },
-  { timestamps: true } // to get the time the the category created in 
+  { timestamps: true } 
 );
+
+
+// Create a static method to get the count of posts in a category
+PostSchema.statics.getPostCountByCategory = async function (categoryId) {
+  const count = await this.countDocuments({ category: categoryId });
+  return count;
+};
 
 // 2- Create model
 const CategoryModel = mongoose.model('Post', PostSchema);

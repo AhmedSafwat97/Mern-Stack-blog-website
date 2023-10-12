@@ -9,9 +9,12 @@ const Category = require("../models/categoryModel");
 // @access  Private
 // asyncHandler or try and catch or then catch
 exports.createCategory = asyncHandler(async (req, res) => {
-  const name = req.body.name;
-  const category = await Category.create({ name, slug: slugify(name) });
+
+  req.body.slug = slugify(req.body.name);
+
+  const category = await Category.create(req.body);
   res.status(201).json({ data: category });
+  
 });
 
 // @desc    Get list of categories
@@ -21,7 +24,7 @@ exports.createCategory = asyncHandler(async (req, res) => {
 
 exports.getCategories = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
-  const limit = req.query.limit * 1 || 4;
+  const limit = req.query.limit * 1 || 6;
   const skip = (page - 1) * limit;
   const cateories = await Category.find({}).skip(skip).limit(limit);
   res.status(200).json({ results: cateories.length, page, data: cateories });

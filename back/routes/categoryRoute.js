@@ -18,4 +18,5 @@ router.route('/:id').get(getcategory).put(updateCategory).delete(deleteCategory)
 // to get nested routes
 router.use('/:categoryId/posts' , postsRoutes)
 
+
 module.exports = router;

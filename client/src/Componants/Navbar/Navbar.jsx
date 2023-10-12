@@ -2,17 +2,20 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { MenuItem, IconButton, Button, Container } from "@mui/material";
+import { MenuItem, Button, Container, Avatar, IconButton } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import TopicsMenu from "./TopicsMenu";
-import MobileMenu from "./MobileMenu";
 import SearchBox from "./SearchBox";
 import SearchIcon from "@mui/icons-material/Search";
+import { red } from "@mui/material/colors";
+import ProfileMenu from "./profileMenu";
+import jwtDecode from "jwt-decode";
+import MailLink from "../MainLink";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+
 
 const Navbar = () => {
   const Location = useLocation();
@@ -23,18 +26,34 @@ const Navbar = () => {
 
   const pages = [
     { Name: "Home", path: "/" },
-    {
-      Name: "Topics",
-      path: "/Topics",
-      Icon:
-        ShowGridTopics === true ? (
-          <ArrowUpwardIcon sx={{ fontSize: "15px" }} />
-        ) : (
-          <ArrowDownwardIcon sx={{ fontSize: "15px" }} />
-        ),
-    },
+
     { Name: "Contact Us", path: "Contact" },
   ];
+
+  let user;
+
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    user = jwtDecode(token);
+  }
+
+
+
+  const queryKey = ["usermenudata"];
+
+  // Define a function to fetch the data from your API
+  const fetchData = async () => {
+    const response = await axios.get(`${MailLink}/api/v1/auth/${user.userId}`); // Replace with your API endpoint
+    return response.data;
+  };
+
+  // Use the useQuery hook to fetch and manage the data
+  const { data : userData } = useQuery(queryKey, fetchData);
+
+
+
+
 
   return (
     <>
@@ -72,6 +91,9 @@ const Navbar = () => {
             >
               WriteWave
             </Typography>
+
+
+
             <Box
               className="Pages"
               sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
@@ -101,59 +123,128 @@ const Navbar = () => {
               ))}
               <TopicsMenu {...{ ShowGridTopics, setShowGridTopics }} />
             </Box>
-            <Box sx={{display : "flex" ,alignItems : "center"}}>
-            <Box sx={{ position : "relative"  , display: { xs: "none", md: "block" } , justifyContent : "center" , mr : "10px"  }}>
-          <SearchBox/>
-          <SearchIcon sx={{ color: "#FFF" , position : "absolute" , right : "5px" , top : "8px"}} />
-        </Box>{" "}
-              <Button
+
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
                 sx={{
-                  color: "#FFF",
-                  bgcolor: "#0DAEE4",
-                  borderRadius: "20px",
-                  width: "90px",
-                  height: "fit-content",
-                  ":hover": {
-                    bgcolor: "#0DAEE",
-                  },
-                }}
-                onClick={() => {
-                  Navigat("/Login")
+                  position: "relative",
+                  display: { xs: "none", md: "block" },
+                  justifyContent: "center",
+                  mr: "10px",
                 }}
               >
-                Login
-              </Button>
+                <SearchBox />
+                <SearchIcon
+                  sx={{
+                    color: "#FFF",
+                    position: "absolute",
+                    right: "5px",
+                    top: "8px",
+                  }}
+                />
+              </Box>
+              
+              
+              {" "}
+              {!user ? (
+                <>
+                  <Button
+                    sx={{
+                      color: "#FFF",
+                      bgcolor: "#0DAEE4",
+                      borderRadius: "20px",
+                      width: "90px",
+                      height: "fit-content",
+                      ":hover": {
+                        bgcolor: "#0DAEE",
+                      },
+                    }}
+                    onClick={() => {
+                      Navigat("/Login");
+                    }}
+                  >
+                    Login
+                  </Button>
+                 
+                </>
+              ) : (
+                <Box>
+                  <Box
+                    sx={{
+                      // display: { xs: "none", md: "block" },
+                      position: "relative",
+                    }}
+                  >
+                    
+                    <Avatar
+                      sx={{ bgcolor: red[500], mr: "10px", cursor: "pointer" }}
+                      aria-label="profile"
+                      onClick={() => {
+                        setShowMobileMenu(!ShowMobileMenu);
+                      }}
+                      src={userData?.data.profileimage}
+                    >
+                      {userData?.data.FirstName[0]}
+                    </Avatar>
+                    <Box>
+                      <ProfileMenu {...{ ShowMobileMenu , setShowMobileMenu , userData , user}} />
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+
+
+
+            { !user && 
+           // mobile Menu 
+            <Box>
+            <Box
+              sx={{
+                position: "relative",
+                display : {xs :"block" , md : "none"}
+              }}
+            >
+              
+              <IconButton
+                    sx={{display : {xs :"block" , md : "none"}}}
+                      onClick={() => {
+                        setShowMobileMenu(!ShowMobileMenu);
+                      }}
+                    >
+                      <MenuIcon />
+                    </IconButton>
+              <Box>
+                <ProfileMenu {...{ ShowMobileMenu , setShowMobileMenu }} />
+              </Box>
+            </Box>
+
+          </Box>
+            
+            }
             </Box>{" "}
           </Box>
         </Container>
         {/* For Mobile Search */}
-        <Box sx={{ position : "relative"  , display: { xs: "flex", md: "none" } , justifyContent : "center"   }}>
-          <SearchBox/>
-          <SearchIcon sx={{ color: "#FFF" , position : "absolute" , right : "16%" , top : "8px" }} />
-        </Box>{" "}
-
-        {/* for Nav bar Menu */}
         <Box
           sx={{
-            width: "100%",
+            position: "relative",
             display: { xs: "flex", md: "none" },
             justifyContent: "center",
-            alignItems: "center",
-            p: "10px",
+            mb: "10px",
           }}
         >
-          <Button
-            sx={{ color: "#FFF"}}
-            onClick={() => {
-              setShowMobileMenu(!ShowMobileMenu);
+          <SearchBox />
+          <SearchIcon
+            sx={{
+              color: "#FFF",
+              position: "absolute",
+              right: "16%",
+              top: "8px",
             }}
-          >
-            {ShowMobileMenu === true ? <CloseIcon /> : <MenuIcon />}
-            Menu
-          </Button>
+          />
         </Box>
       </AppBar>
-      <MobileMenu {...{ ShowMobileMenu }} />
     </>
   );
 };

@@ -1,49 +1,98 @@
-import React from 'react';
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import MailLink from "../../MainLink";
 
 const Topics = () => {
-    return (
-        <Box sx={{display : "flex" , flexDirection : "column" , alignItems : "center" , m : "30px 0" , p : "20px 0"}}>
-            <Box sx={{textAlign : "center"}}>
-        
-                <Typography variant='h4' sx={{color : "#0DBADE"}}>
-                Trending Topics
-                </Typography>
-                <Typography sx={{color : "gray"}}>
-                Discover the most outstanding articles in all topics
 
-                </Typography>
-            </Box>
+  const queryKey = ["repoData"];
 
-          <Box sx={{display : "flex" , flexDirection : {xs : "column" , md : "row"}, m : "10px 0"}}>
-              <Box sx={{ m : "10px" ,width : "120px" , height : "160px" , borderRadius : "15px", position:"relative"}}>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "20px"}}>nature</Typography>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "2px", color :"gray"}}>25 Articles</Typography>
-            
-                  <img src='../../../../Imgs/blog1.jpg'  alt='' style={{width: "100%" , height : "100%" , borderRadius : "15px"}}/>
-              </Box>
-              <Box sx={{ m : "10px" ,width : "120px" , height : "160px" , borderRadius : "15px", position:"relative"}}>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "20px"}}>nature</Typography>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "2px", color :"gray"}}>25 Articles</Typography>
-            
-                  <img src='../../../../Imgs/blog1.jpg'  alt='' style={{width: "100%" , height : "100%" , borderRadius : "15px"}}/>
-              </Box>
-              <Box sx={{ m : "10px" ,width : "120px" , height : "160px" , borderRadius : "15px", position:"relative"}}>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "20px"}}>nature</Typography>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "2px", color :"gray"}}>25 Articles</Typography>
-            
-                  <img src='../../../../Imgs/blog1.jpg'  alt='' style={{width: "100%" , height : "100%" , borderRadius : "15px"}}/>
-              </Box>
-              <Box sx={{ m : "10px" ,width : "120px" , height : "160px" , borderRadius : "15px", position:"relative"}}>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "20px"}}>nature</Typography>
-                  <Typography sx={{position : "absolute" , left : "10px" ,bottom : "2px", color :"gray"}}>25 Articles</Typography>
-            
-                  <img src='../../../../Imgs/blog1.jpg'  alt='' style={{width: "100%" , height : "100%" , borderRadius : "15px"}}/>
-              </Box>
-          </Box>
-            
+  // Define a function to fetch the data from your API
+  const fetchData = async () => {
+    const response = await axios.get(`${MailLink}/api/v1/categories`); // Replace with your API endpoint
+    return response.data;
+  };
+
+  // Use the useQuery hook to fetch and manage the data
+  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+
+  console.log(data);
+
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
+
+
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        m: "30px 0",
+        p: "20px 0",
+      }}
+    >
+      <Box sx={{ textAlign: "center" }}>
+        <Typography variant="h4" sx={{ color: "#0DBADE" }}>
+          Trending Topics
+        </Typography>
+        <Typography sx={{ color: "gray" }}>
+          Discover the most outstanding articles in all topics
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          m: "10px 0",
+        }}
+      >
+
+      {data?.data.map((category) => (
+          <Box
+          key={category.name}
+          sx={{
+            m: "10px",
+            p : "10px" ,
+            borderRadius: "15px",
+            bgcolor : "#222F43"
+          }}
+        >
+          <Typography
+            sx={{}}
+          >
+            {category.name}
+          </Typography>
+          {/* <Typography
+            sx={{
+              position: "absolute",
+              left: "10px",
+              bottom: "2px",
+              color: "gray",
+            }}
+          >
+            25 Articles
+          </Typography> */}
+
+          {/* <img
+            src={category.image}
+            alt=""
+            style={{ width: "100%", height: "100%", borderRadius: "15px" }}
+          /> */}
         </Box>
-    );
-}
+      ))}
+      </Box>
+    </Box>
+  );
+};
 
 export default Topics;
