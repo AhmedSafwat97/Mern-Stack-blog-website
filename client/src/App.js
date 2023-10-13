@@ -32,7 +32,6 @@ function App() {
           <Route path="/Createnewpost" element={<CreateNewpost />} />
           <Route path="/editpost/:id" element={<CreateNewpost />} />
          <Route path="/Profile/:id" element={<Profile/>} />
-         {/* <Route path="/Profile/author/:id" element={<Profile/>} /> */}
          <Route path="/editprofile/:id" element={<Editinfo/>} />
          {/* <Route path="/search" element={<Profile/>} /> */}
 
