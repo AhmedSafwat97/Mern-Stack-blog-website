@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import MailLink from "../../MainLink";
+import ScrollToTop from "../../../ScrollToTop";
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -27,7 +28,6 @@ const Login = () => {
   const Navigat = useNavigate();
 
 
-
   const submitlogin = useMutation((Login) => {
     return axios.post(`${MailLink}/api/v1/auth/login`, Login);
   }, {
@@ -36,6 +36,7 @@ const Login = () => {
       const token = data.data.token
       console.log(token);
       
+
       if (token) {
         localStorage.setItem("token", token);
       }
@@ -44,40 +45,10 @@ const Login = () => {
 
     },
   });
-  //   try {
-  //     const response = await axios.post("http://localhost:5000/api/v1/auth/login", {
-  //       Email: Email,
-  //       password: password,
-  //     });
-  //     console.log("Response from POST request:", response.data.token);
-
-  //     const token = response.data.token
-
-  //     if (token) {
-  //       localStorage.setItem("token", token);
-  //       // Navigate to the desired path after setting the token
-  //     }
-
-  //   } catch (error) {
-  //     if (error.response) {
-  //       // The request was made, but the server responded with an error status code
-  //       console.error("Response error data:", error.response.data);
-  //       console.error("Response error status:", error.response.status);
-  //     } else if (error.request) {
-  //       // The request was made but no response was received
-  //       console.error("Request error:", error.request);
-  //     } else {
-  //       // Something happened in setting up the request that triggered an error
-  //       console.error("General error:", error.message);
-  //     }
-  //   }
-
-  // };
-
-
 
   return (
     <Box>
+      <ScrollToTop/>
       <Box
         sx={{
           display: "flex",

@@ -18,13 +18,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import MailLink from "../../../MainLink";
 import { useNavigate } from "react-router-dom";
+import {useQueryClient } from "@tanstack/react-query";
 
-export default function Profileimage({id , data}) {
+export default function Profileimage({id , data , queryKey}) {
   const fileInputRef = useRef(null);
 
   const [profileimage, setprofileimage] = useState("");
 
   const Navigate = useNavigate()
+
+  const queryClient = useQueryClient();
 
   const submitimage = async () => {
     const formData = new FormData();
@@ -38,7 +41,9 @@ export default function Profileimage({id , data}) {
           "Content-Type": "multipart/form-data", // Ensure you set the correct content type
         },
       });
-  
+        // After a successful comment submission, invalidate the comments query
+        queryClient.invalidateQueries(queryKey);
+
       console.log("Response from Update request:", response.data);
     } catch (error) {
       console.error("Error updating", error);

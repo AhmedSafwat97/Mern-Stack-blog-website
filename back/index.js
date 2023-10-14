@@ -16,7 +16,7 @@ app.use(express.json()); // Add this line for body parsing
 const categoryRoute = require("./routes/categoryRoute");
 const postRoute = require("./routes/postRoute");
 const SignRoute = require("./routes/SignRoute");
-
+const CommentsRoute = require("./routes/CommentsRoute")
 // Connect with db
 dbConnection();
 
@@ -27,6 +27,8 @@ app.get("/", (req, res) => {
 // Mount Routes
 app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v1/post", postRoute);
+app.use("/api/v1/comments", CommentsRoute);
+
 // Define a route to serve static files (images)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Auth Route

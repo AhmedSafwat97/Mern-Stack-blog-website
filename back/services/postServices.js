@@ -6,7 +6,7 @@ const Post = require("../models/postsModel");
 
 const Category = require("../models/categoryModel");
 
-const { formatDistanceToNow } = require('date-fns');
+const { formatDistanceToNow } = require("date-fns");
 
 // @desc    Create post
 // @route   POST  /api/v1/post/
@@ -18,7 +18,6 @@ exports.createpost = asyncHandler(async (req, res) => {
   // if (!req.body.author) req.body.author = req.user._id;
   // Assuming multer middleware is used to handle file uploads,
   // req.file should contain the uploaded file data
-    
   // Check if req.file exists and has the filename property
   if (req.file && req.file.filename) {
     const filename = req.file.filename;
@@ -34,7 +33,6 @@ exports.createpost = asyncHandler(async (req, res) => {
 
   const post = await Post.create(req.body);
   res.status(201).json({ data: post });
-
 });
 
 // @desc    Get list of posts
@@ -44,7 +42,6 @@ exports.createpost = asyncHandler(async (req, res) => {
 // @access  Public
 
 exports.getposts = asyncHandler(async (req, res) => {
-  
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 6;
   const skip = (page - 1) * limit;
@@ -53,12 +50,13 @@ exports.getposts = asyncHandler(async (req, res) => {
   let filterposts = {};
   if (req.params.categoryId) filterposts = { category: req.params.categoryId };
   // ///////// here
-  if (req.params.authorId) filterposts = { author : req.params.authorId };
+  if (req.params.authorId) filterposts = { author: req.params.authorId };
 
   const posts = await Post.find(filterposts)
     .skip(skip)
     .limit(limit)
-    .populate({ path: "category", select: "name -_id" }).populate({path : "author" , select : "-password"});
+    .populate({ path: "category", select: "name -_id" })
+    .populate({ path: "author", select: "-password" });
   res.status(200).json({ results: posts.length, page, data: posts });
 });
 
@@ -69,7 +67,7 @@ exports.getposts = asyncHandler(async (req, res) => {
 exports.getpost = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const post = await Post.findById(id)
+  const post = await Post.findById(id);
 
   !post
     ? res.status(404).json({ msg: "there is no category for this id" })

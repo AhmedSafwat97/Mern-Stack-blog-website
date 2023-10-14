@@ -64,7 +64,7 @@ export default function BlogCard() {
           <Box>
             <Typography
               variant="h6"
-              sx={{ fontSize: "18px", fontWeight: "600", ml: "10px" }}
+              sx={{ fontSize: "18px", height : "85px", fontWeight: "600", ml: "10px" }}
             >
               {posts.title}
             </Typography>

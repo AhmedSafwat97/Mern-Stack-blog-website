@@ -10,7 +10,6 @@ import Editinfo from "./Componants/Pages/Profile/Editinfo/Editinfo";
 import Profile from "./Componants/Pages/Profile/Profile";
 
 function App() {
-
   return (
     <div
       className="App"
@@ -22,28 +21,24 @@ function App() {
     >
       <Router>
         <Navbar />
-             <Routes>
+        <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Login" element={<Login /> } />
-          <Route path="/SignUp" element={<Signup />} /> 
+          <Route path="/Login" element={<Login />} />
+          <Route path="/SignUp" element={<Signup />} />
           {/* <Route path="/forgotpass" element={<Profile/>} /> */}
           {/* <Route path="/category/:id" element={<Profile/>} /> */}
           <Route path="/postDetails/:id" element={<PostDetails />} />
           <Route path="/Createnewpost" element={<CreateNewpost />} />
           <Route path="/editpost/:id" element={<CreateNewpost />} />
-         <Route path="/Profile/:id" element={<Profile/>} />
-         <Route path="/editprofile/:id" element={<Editinfo/>} />
-         {/* <Route path="/search" element={<Profile/>} /> */}
+          <Route path="/Profile/:id" element={<Profile />} />
+          <Route path="/editprofile/:id" element={<Editinfo />} />
+          {/* <Route path="/search" element={<Profile/>} /> */}
 
-{/* make recommended section with random number */}
-{/* make edit profile page*/}
-{/* make comments Section */}
-{/* make forgot pass */}
-{/* make delete and edit posts  */}
-{/* make category page */}
-{/* make search page */}
-
-
+          {/* make recommended section with random number */}
+          {/* make forgot pass */}
+          {/* make edit posts  */}
+          {/* make category page */}
+          {/* make search page */}
         </Routes>
         <Footer />
       </Router>

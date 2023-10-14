@@ -11,6 +11,7 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MailLink from "../../MainLink";
+import ScrollToTop from "../../../ScrollToTop";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -33,11 +34,11 @@ const SignUp = () => {
       const response = await axios.post(`${MailLink}/api/v1/auth/signup`, {
         Email: Email,
         password: password,
-        FirstName : FirstName , 
-        LastName : LastName
+        FirstName: FirstName,
+        LastName: LastName,
       });
       console.log("Response from POST request:", response.data);
-    
+
       // Handle successful response here
     } catch (error) {
       if (error.response) {
@@ -52,12 +53,12 @@ const SignUp = () => {
         console.error("General error:", error.message);
       }
     }
-
- 
   };
 
   return (
     <Box>
+      <ScrollToTop />
+
       <Box
         sx={{
           display: "flex",
@@ -169,7 +170,7 @@ const SignUp = () => {
               },
             }}
             onClick={() => {
-              submitSignIn()
+              submitSignIn();
               Navigat("/Login");
             }}
           >

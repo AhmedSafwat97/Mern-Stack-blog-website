@@ -32,7 +32,8 @@ router.route("/image/:id").post(uploadProfileImage, updateprofileimage);
 // to get nested routes
 router.use("/:authorId/posts", postsRoutes);
 
-router.use("/:authorId/posts", postsRoutes);
+router.use("/:authorId/posts/:postId/comments", postsRoutes);
+
 
 
 

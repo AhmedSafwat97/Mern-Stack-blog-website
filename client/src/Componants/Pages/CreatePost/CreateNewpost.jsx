@@ -128,7 +128,6 @@ const CreateNewpost = () => {
          >
            <InputLabel sx={{ color: "#FFF" }}>Title</InputLabel>
            <OutlinedInput
-             label="Title"
              value={title}
              onChange={(e) => {
                setTitle(e.target.value);
@@ -147,7 +146,6 @@ const CreateNewpost = () => {
              labelId="demo-simple-select-label"
              id="demo-simple-select"
              value={category}
-             label="category"
              onChange={(e) => {
                setcategory(e.target.value);
              }}

@@ -53,6 +53,6 @@ PostSchema.statics.getPostCountByCategory = async function (categoryId) {
 };
 
 // 2- Create model
-const CategoryModel = mongoose.model('Post', PostSchema);
+const postModel = mongoose.model('Post', PostSchema);
 
-module.exports = CategoryModel;
+module.exports = postModel;

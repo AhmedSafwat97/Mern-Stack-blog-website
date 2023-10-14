@@ -15,29 +15,26 @@ import React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import jwtDecode from "jwt-decode";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import MailLink from "../../../MainLink";
 import axios from "axios";
 import { useState } from "react";
 import Profileimage from "./Profileimage";
 
-
 const Editinfo = () => {
-
   const Navigate = useNavigate();
 
   const { id } = useParams();
 
-
   let user;
 
-  const token = localStorage.getItem('token')
-  
+  const token = localStorage.getItem("token");
+
   if (token) {
     user = jwtDecode(token);
   }
-  
-// console.log(user);
+
+  // console.log(user);
 
   const [FirstName, setFirstName] = useState();
   const [LastName, setLastName] = useState();
@@ -47,53 +44,34 @@ const Editinfo = () => {
   const [LinkedinLink, setLinkedinLink] = useState();
   const [About, setAbout] = useState();
 
+  const queryKey = ["userdata"];
+
+  const queryClient = useQueryClient();
 
   const submitupdate = async () => {
     try {
- 
       const response = await axios.put(`${MailLink}/api/v1/auth/${id}`, {
         Email: Email,
-        FirstName : FirstName , 
-        LastName : LastName ,
-        About : About ,
-        FacebookLink : FacebookLink ,
-        InstagramLink : InstagramLink ,
-        LinkedinLink : LinkedinLink
+        FirstName: FirstName,
+        LastName: LastName,
+        About: About,
+        FacebookLink: FacebookLink,
+        InstagramLink: InstagramLink,
+        LinkedinLink: LinkedinLink,
       });
 
       console.log("Response from POST request:", response.data);
+
+      // After a successful comment submission, invalidate the comments query
+      queryClient.invalidateQueries(queryKey);
     } catch (error) {
       console.error("Error updating", error);
     }
   };
 
-
-  // const submitimage = async () => {
-  //   const formData = new FormData();
-  
-  //   // Append the image file if it exists
-  //     formData.append("profileimage", profileimage); // Assuming profileimage is a File object
-
-  //   try {
-  //     const response = await axios.post(`${MailLink}/api/v1/auth/image/${id}`, formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data", // Ensure you set the correct content type
-  //       },
-  //     });
-  
-  //     console.log("Response from Update request:", response.data);
-  //   } catch (error) {
-  //     console.error("Error updating", error);
-  //   }
-  // };
-
-  const queryKey = ["userdata"];
-
   // Define a function to fetch the data from your API
   const fetchData = async () => {
-    const response = await axios.get(
-      `${MailLink}/api/v1/auth/${id}`
-    ); // Replace with your API endpoint
+    const response = await axios.get(`${MailLink}/api/v1/auth/${id}`); // Replace with your API endpoint
     return response.data;
   };
 
@@ -110,9 +88,6 @@ const Editinfo = () => {
     return <div>Error fetching data</div>;
   }
 
-
-
-
   return (
     <Box
       sx={{
@@ -127,11 +102,10 @@ const Editinfo = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          position : "relative"
+          position: "relative",
         }}
       >
-
-        <Profileimage {...{ data , id}} />
+        <Profileimage {...{ data, id, queryKey }} />
 
         <Avatar
           sx={{
@@ -145,24 +119,15 @@ const Editinfo = () => {
         >
           R
         </Avatar>
-
-        {/* <input
-          style={{ width: "90px" }}
-          type="file"
-          accept="image/*"
-            onChange={(e) => {
-              setprofileimage(e.target.files[0])
-              console.log(profileimage);
-              // submitimage()
-            }
-            
-            }
-        /> */}
       </Box>
 
-<Box sx={{width : {xs : "100%" , md : "70%"} , bgcolor : "#222F43" , position : "absolute"}}>
-        
-</Box >
+      <Box
+        sx={{
+          width: { xs: "100%", md: "70%" },
+          bgcolor: "#222F43",
+          position: "absolute",
+        }}
+      ></Box>
 
       <Box
         sx={{
@@ -207,9 +172,9 @@ const Editinfo = () => {
               placeholder="Last Name"
               defaultValue={data?.data.LastName}
               sx={{ m: "10px 0", bgcolor: "#0F172A", width: "49%" }}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
             />
           </AccordionDetails>
         </Accordion>
@@ -240,16 +205,14 @@ const Editinfo = () => {
               placeholder="Post Content"
               defaultValue={data?.data.Email}
               sx={{ m: "10px 0", bgcolor: "#0F172A" }}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
           </AccordionDetails>
         </Accordion>
 
-
-
- {/* About */}
+        {/* About */}
 
         <Accordion
           sx={{ bgcolor: "#222F43", borderRadius: "15px", mb: "10px" }}
@@ -270,15 +233,12 @@ const Editinfo = () => {
               placeholder="Anout"
               defaultValue={data?.data.About}
               sx={{ m: "10px 0", bgcolor: "#0F172A" }}
-                onChange={(e) => {
-                  setAbout(e.target.value);
-                }}
+              onChange={(e) => {
+                setAbout(e.target.value);
+              }}
             />
-        
           </AccordionDetails>
         </Accordion>
-
-
 
         {/* social media */}
 
@@ -301,9 +261,9 @@ const Editinfo = () => {
               placeholder="Facebook"
               defaultValue={data?.data.FacebookLink}
               sx={{ m: "10px 0", bgcolor: "#0F172A" }}
-                onChange={(e) => {
-                  setFacebookLink(e.target.value);
-                }}
+              onChange={(e) => {
+                setFacebookLink(e.target.value);
+              }}
             />
 
             <TextField
@@ -313,9 +273,9 @@ const Editinfo = () => {
               placeholder="Instagram"
               defaultValue={data?.data.InstagramLink}
               sx={{ m: "10px 0", bgcolor: "#0F172A" }}
-                onChange={(e) => {
-                  setInstagramLink(e.target.value);
-                }}
+              onChange={(e) => {
+                setInstagramLink(e.target.value);
+              }}
             />
 
             <TextField
@@ -325,26 +285,33 @@ const Editinfo = () => {
               placeholder="Linkedin"
               defaultValue={data?.data.LinkedinLink}
               sx={{ m: "10px 0", bgcolor: "#0F172A" }}
-                onChange={(e) => {
-                  setLinkedinLink(e.target.value);
-                }}
+              onChange={(e) => {
+                setLinkedinLink(e.target.value);
+              }}
             />
           </AccordionDetails>
         </Accordion>
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center", m: "15px 0" ,width  : {xs : "90%" , md : "70%"} }}>
-          <Box sx={{ flexGrow: 1 }} />
-          <Button
-            variant="contained"
-            onClick={() => {
-                submitupdate();
-                Navigate(`/profile/${id}`)
-            }}
-          >
-            Save
-          </Button>
-        </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          m: "15px 0",
+          width: { xs: "90%", md: "70%" },
+        }}
+      >
+        <Box sx={{ flexGrow: 1 }} />
+        <Button
+          variant="contained"
+          onClick={() => {
+            submitupdate();
+            Navigate(`/profile/${id}`);
+          }}
+        >
+          Save
+        </Button>
+      </Box>
     </Box>
   );
 };
