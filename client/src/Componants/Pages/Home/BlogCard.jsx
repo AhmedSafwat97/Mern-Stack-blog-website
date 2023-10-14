@@ -131,9 +131,7 @@ export default function BlogCard() {
        count={Math.ceil(data.data.length / postsPerPage)}
        page={currentPage}
        onChange={handlePageChange}
-      //  onClick={() => {
-      //    window.scrollTo(0, 0);
-      //  }}
+      
        color="secondary" />
       </Box>
     </Box>
