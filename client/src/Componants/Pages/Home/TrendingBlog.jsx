@@ -15,9 +15,7 @@ const TrendingBlog = () => {
             Discover the most outstanding articles in all topics
           </Typography>
         </Box>
-        <Box sx={{display : "flex" , justifyContent : "center" ,flexWrap : "wrap" , width : "75%"}}>
         <BlogCard />
-        </Box>
     </Box>
   );
 };

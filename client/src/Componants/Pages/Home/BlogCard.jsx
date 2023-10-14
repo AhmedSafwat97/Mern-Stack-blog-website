@@ -7,12 +7,27 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
-import { Box } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MailLink from "../../MainLink";
+import { useState } from "react";
 
 export default function BlogCard() {
+
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 2;
+
+  // c = 2 , p per page = 3 , indexLast = 2 * 3 = 6 , indexoffirst = 6 - 3 = 3
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+
+  };
+
   const Navigate = useNavigate();
 
   const queryKey = ["posts"];
@@ -20,8 +35,8 @@ export default function BlogCard() {
   // Define a function to fetch the data from your API
   const fetchData = async () => {
     const response = await axios.get(
-      `${MailLink}/api/v1/post?page=1&limit=20`
-    ); // Replace with your API endpoint
+      `${MailLink}/api/v1/post?page=${currentPage}&limit=4`
+    ); 
     return response.data;
   };
   
@@ -35,8 +50,10 @@ export default function BlogCard() {
   }
 
   return (
-    <>
-      {data?.data.reverse().map((posts) => (
+    <Box sx={{display : "block"}}>
+    <Box sx={{display : "flex" , justifyContent : "center" ,flexWrap : "wrap" , width : "100%"}}>
+
+      {data?.data.slice(indexOfFirstPost, indexOfLastPost).reverse().map((posts) => (
         <Card
           key={posts._id}
           sx={{
@@ -108,6 +125,17 @@ export default function BlogCard() {
           </Box>
         </Card>
       ))}
-    </>
+      </Box>
+      <Box sx={{p : "10px"}}>
+      <Pagination
+       count={Math.ceil(data.data.length / postsPerPage)}
+       page={currentPage}
+       onChange={handlePageChange}
+      //  onClick={() => {
+      //    window.scrollTo(0, 0);
+      //  }}
+       color="secondary" />
+      </Box>
+    </Box>
   );
 }
