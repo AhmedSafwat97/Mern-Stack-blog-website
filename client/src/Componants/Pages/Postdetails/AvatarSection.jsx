@@ -4,7 +4,7 @@ import { red } from "@mui/material/colors";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import MailLink from "../../MainLink";
@@ -25,7 +25,7 @@ const AvatarSection = ({data}) => {
 
   console.log(Authordata);
 
-
+const Navigate = useNavigate()
 
   return (
     <Box
@@ -40,9 +40,12 @@ const AvatarSection = ({data}) => {
     >
       <Box sx={{ display: "flex", mt: "10px" }}>
         <Avatar
-          sx={{ width: "60px", height: "60px", bgcolor: red[500], mr: "10px" }}
+          sx={{cursor : "pointer" ,width: "60px", height: "60px", bgcolor: red[500], mr: "10px" }}
           aria-label="profile"
         src={Authordata?.data.profileimage}
+        onClick={() => {
+          Navigate(`/Profile/${Authordata?.data._id}`)
+        }}
         >
           {Authordata?.data.FirstName[0]}
         </Avatar>

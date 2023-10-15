@@ -8,6 +8,7 @@ import CreateNewpost from "./Componants/Pages/CreatePost/CreateNewpost";
 import PostDetails from "./Componants/Pages/Postdetails/PostDetails";
 import Editinfo from "./Componants/Pages/Profile/Editinfo/Editinfo";
 import Profile from "./Componants/Pages/Profile/Profile";
+import Categories from "./Componants/Pages/categories/categories";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/SignUp" element={<Signup />} />
           {/* <Route path="/forgotpass" element={<Profile/>} /> */}
-          {/* <Route path="/category/:id" element={<Profile/>} /> */}
+          <Route path="/category/:id" element={<Categories/>} />
           <Route path="/postDetails/:id" element={<PostDetails />} />
           <Route path="/Createnewpost" element={<CreateNewpost />} />
           <Route path="/editpost/:id" element={<CreateNewpost />} />
@@ -36,7 +37,6 @@ function App() {
 
           {/* make recommended section with random number */}
           {/* make forgot pass */}
-          {/* make edit posts  */}
           {/* make category page */}
           {/* make search page */}
         </Routes>

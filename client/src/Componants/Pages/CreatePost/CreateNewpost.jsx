@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import "react-dropzone-uploader/dist/styles.css"; // Import the styles
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import FileUpload from "./FileUpload ";
 import { useNavigate, useParams } from "react-router-dom";
@@ -27,12 +27,17 @@ const CreateNewpost = () => {
   const [category, setcategory] = useState("");
   const [Errormessage, setErrormessage] = useState(null);
 
-
   const {id} = useParams()
   console.log(id);
 
   const Navigate = useNavigate();
   const queryKey = ["repoData"];
+
+  const QueryKey = ["postdata"];
+
+  const QueryKeypost = ["updatepostdata"];
+
+
 
   let user;
 
@@ -41,6 +46,33 @@ const CreateNewpost = () => {
   if (token) {
     user = jwtDecode(token);
   }
+
+
+
+  const updateposts = async () => {
+    try {
+      const response = await axios.put(`${MailLink}/api/v1/post/${id}`, {
+        title: title,
+        content: content ,
+      });
+      Navigate("/")
+      console.log("Response from PUT request:", response.data);
+    } catch (error) {
+      console.error("Error updating:", error);
+    }
+  };
+
+  
+  
+  const fetchPostData = async () => {
+    const response = await axios.get(`${MailLink}/api/v1/post/${id}`); 
+    return response.data;
+  };
+
+  // Use the useQuery hook to fetch and manage the data
+  const { data : postData  } = useQuery(QueryKey, fetchPostData);
+
+  console.log(postData);
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
@@ -126,9 +158,9 @@ const CreateNewpost = () => {
            sx={{ width: "100%", borderRadius: "10px", m: "15px 0" }}
            variant="filled"
          >
-           <InputLabel sx={{ color: "#FFF" }}>Title</InputLabel>
            <OutlinedInput
-             value={title}
+           placeholder="Title"
+             defaultValue={!id ? title : postData?.data.title}
              onChange={(e) => {
                setTitle(e.target.value);
                console.log(title);
@@ -137,7 +169,7 @@ const CreateNewpost = () => {
          </FormControl>
     
          <Box sx={{ display: "flex", m: "10px 0" }}>
-           <FileUpload {...{ imageCover, setimage }} />
+           <FileUpload {...{ imageCover, setimage ,postData , id}} />
          </Box>
     
          <FormControl sx={{ m: "20px 0" }} fullWidth>
@@ -145,6 +177,7 @@ const CreateNewpost = () => {
            <Select
              labelId="demo-simple-select-label"
              id="demo-simple-select"
+             defaultValue={!id ? category : postData?.data.category}
              value={category}
              onChange={(e) => {
                setcategory(e.target.value);
@@ -168,11 +201,11 @@ const CreateNewpost = () => {
          <TextField
            fullWidth
            id="outlined-multiline-static"
-           label="Post Content"
            multiline
            placeholder="Post Content"
            rows={8}
            sx={{ m: "10px 0" }}
+           defaultValue={!id ? content : postData?.data.content}
            onChange={(e) => {
              setContent(e.target.value);
            }}
@@ -183,8 +216,8 @@ const CreateNewpost = () => {
            <Button
              variant="contained"
              onClick={() => {
-               if (title !== "" && category !== "" && content !== "" ) {
-                submitposts();
+               if (title !== "" ) {
+               id ? updateposts() : submitposts();
                } else {
                 window.scrollTo(0, 0);
                 setErrormessage("There is an error in the inputs")

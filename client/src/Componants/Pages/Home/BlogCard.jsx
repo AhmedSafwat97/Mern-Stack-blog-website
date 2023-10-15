@@ -17,7 +17,7 @@ export default function BlogCard() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 2;
+  const postsPerPage = 6;
 
   // c = 2 , p per page = 3 , indexLast = 2 * 3 = 6 , indexoffirst = 6 - 3 = 3
   const indexOfLastPost = currentPage * postsPerPage;
@@ -52,8 +52,7 @@ export default function BlogCard() {
   return (
     <Box sx={{display : "block"}}>
     <Box sx={{display : "flex" , justifyContent : "center" ,flexWrap : "wrap" , width : "100%"}}>
-
-      {data?.data.slice(indexOfFirstPost, indexOfLastPost).reverse().map((posts) => (
+      {data?.data.reverse().slice(indexOfFirstPost, indexOfLastPost).map((posts) => (
         <Card
           key={posts._id}
           sx={{
@@ -63,6 +62,9 @@ export default function BlogCard() {
             p: "15px 10px",
             borderRadius: "15px",
             cursor: "pointer",
+            ":hover" : {
+              border : "2px solid #0DBADE"
+            }
           }}
         >
           <CardMedia
@@ -70,7 +72,10 @@ export default function BlogCard() {
             component="img"
             height="170"
             image={posts.imageCover}
-            alt="Paella dish"
+            alt="profile"
+            onClick={() => {
+              Navigate(`/postDetails/${posts._id}`);
+            }}
           />
 
           <Box sx={{ display: "flex", ml: "10px" }}>
@@ -81,9 +86,9 @@ export default function BlogCard() {
           <Box>
             <Typography
               variant="h6"
-              sx={{ fontSize: "18px", height : "85px", fontWeight: "600", ml: "10px" }}
+              sx={{ fontSize: "18px", height : "50px", my : "auto" ,fontWeight: "600", ml: "10px" }}
             >
-              {posts.title}
+              {posts.title.slice(0 , 30)}
             </Typography>
           </Box>
 
@@ -104,7 +109,7 @@ export default function BlogCard() {
                 aria-label="Author"
                 src={posts.author.profileimage}
               >
-                R
+                {posts.author.FirstName}
               </Avatar>
               <Box>
                 <Typography sx={{ fontSize: "12px", color: "gray" }}>

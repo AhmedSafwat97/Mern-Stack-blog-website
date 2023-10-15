@@ -3,10 +3,12 @@ import { Box, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import MailLink from "../../MainLink";
+import { useNavigate } from "react-router-dom";
 
 const Topics = () => {
 
   const queryKey = ["repoData"];
+  const Navigate = useNavigate()
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
@@ -27,6 +29,7 @@ const Topics = () => {
   if (isError) {
     return <div>Error fetching data</div>;
   }
+
 
 
 
@@ -64,7 +67,11 @@ const Topics = () => {
             m: "10px",
             p : "10px" ,
             borderRadius: "15px",
-            bgcolor : "#222F43"
+            bgcolor : "#222F43" ,
+            cursor : "pointer"
+          }}
+          onClick={() => {
+            Navigate(`/category/${category._id}`)
           }}
         >
           <Typography
