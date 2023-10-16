@@ -44,7 +44,7 @@ export default function BlogCard() {
   const { data} = useQuery(queryKey, fetchData);
 
   return (
-    <Box sx={{display : "block" , width : {xs : "100%"  ,md :"75%"}}}>
+    <Box sx={{display : "block" ,width : {xs : "100%"  ,md :"75%"}}}>
     <Box sx={{display : "flex" , justifyContent : "center" ,flexWrap : "wrap" , width : "90%" , mx : "auto"}}>
       {data?.data.reverse().slice(indexOfFirstPost, indexOfLastPost).map((posts) => (
         <Card

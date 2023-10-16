@@ -1,10 +1,11 @@
 {
-  "name": "back",
+  "name": "blogs-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Social Maedia blogs website",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js" ,
+    "build": "npm i"
   },
   "author": "ahmed Safwat",
   "license": "ISC",
