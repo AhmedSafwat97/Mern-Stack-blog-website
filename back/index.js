@@ -20,7 +20,7 @@ const CommentsRoute = require("./routes/CommentsRoute")
 dbConnection();
 
 app.get("/", (req, res) => {
-  res.send("Welcome our to online Social media blogs API...");
+  res.send("Welcome our to online New Social media blogs API...");
 });
 
 // Mount Routes
