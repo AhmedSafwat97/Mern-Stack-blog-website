@@ -1,3 +1,3 @@
-const MailLink = "http://localhost:5000"
+const MailLink = "https://social-media-blog-yfrv.onrender.com"
 
 export default MailLink

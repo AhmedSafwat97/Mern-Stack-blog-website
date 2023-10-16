@@ -23,7 +23,7 @@ exports.createpost = asyncHandler(async (req, res) => {
     const filename = req.file.filename;
 
     // Construct the image URL
-    const imageUrl = `http://localhost:5000/uploads/${filename}`;
+    const imageUrl = `https://social-media-blog-yfrv.onrender.com/uploads/${filename}`;
 
     // Set the imageCover field to the imageUrl
     req.body.imageCover = imageUrl;

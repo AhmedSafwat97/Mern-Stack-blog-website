@@ -150,7 +150,7 @@ exports.updateprofileimage = asyncHandler(async (req, res) => {
   const filename = req.file.filename;
 
   // Construct the image URL
-  const imageUrl = `http://localhost:5000/uploads/${filename}`;
+  const imageUrl = `https://social-media-blog-yfrv.onrender.com/${filename}`;
 
   // Create an object to specify the update, in this case, the `profileimage` field
   const update = { profileimage: imageUrl };
