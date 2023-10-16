@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
         },
         message: 'Invalid email format. Email must contain "@" symbol.',
       },
+      lowercase: true,
     },
     password: {
       type: String,

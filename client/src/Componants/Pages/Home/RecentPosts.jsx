@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
 import BlogCard from "./BlogCard";
 import Card from "@mui/material/Card";
@@ -29,13 +29,15 @@ const RecentPosts = () => {
   console.log(data);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return   <Box
+    sx={{
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+     <CircularProgress sx={{mx : "65px"}}/>
+  </Box>
   }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
-
 
 
   return (
@@ -67,6 +69,9 @@ const RecentPosts = () => {
               p: "15px 10px",
               borderRadius: "15px",
               cursor: "pointer",
+              ":hover" : {
+                border : "2px solid #0DBADE"
+              }
             }}
             onClick={() => {
               navigate(`/postDetails/${posts._id}`)
@@ -84,7 +89,9 @@ const RecentPosts = () => {
               <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
                 {posts.category.name}
               </Typography>
-              
+              <Typography sx={{ color: "gray", mt: "10px", mr: "10px" }}>
+                {posts.category.createdAt}
+              </Typography>
             </Box>
             <Box>
               <Typography

@@ -81,7 +81,7 @@ const CreateNewpost = () => {
   };
 
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+  const { data } = useQuery(queryKey, fetchData);
 
   // console.log(data);
 

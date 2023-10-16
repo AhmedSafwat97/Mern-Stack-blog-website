@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
@@ -36,13 +37,17 @@ const Profile = () => {
 
   console.log(data);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
+  // if (isLoading) {
+  //   return   <Box
+  //   sx={{
+  //     justifyContent: "center",
+  //     alignItems: "center",
+  //   }}
+  // >
+  //    <CircularProgress sx={{mx : "65px"}}/>
+  // </Box>
+  // }
+  
 
   let user;
 

@@ -10,7 +10,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import MailLink from "../../MainLink";
 import ScrollToTop from "../../../ScrollToTop";
 
@@ -27,6 +27,7 @@ const Login = () => {
 
   const Navigat = useNavigate();
 
+  const queryClient = useQueryClient();
 
   const submitlogin = useMutation((Login) => {
     return axios.post(`${MailLink}/api/v1/auth/login`, Login);
@@ -35,7 +36,8 @@ const Login = () => {
       console.log("Response from POST request:", data);
       const token = data.data.token
       console.log(token);
-      
+
+      queryClient.invalidateQueries();
 
       if (token) {
         localStorage.setItem("token", token);
@@ -125,7 +127,7 @@ const Login = () => {
             />
           </FormControl>
 
-          <Typography sx={{ color: "#0DBADE", m: "10px 0" }}>
+          <Typography sx={{ color: "#0DBADE", m: "10px 0" , cursor : "pointer" }}>
             Forgot Password
           </Typography>
 

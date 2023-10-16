@@ -127,9 +127,9 @@ const CommentSection = ({ id , user }) => {
         >
           <Box
             sx={{ display: "flex", mt: "10px" }}
-            //  onClick={() => {
-            //   Navigate(`/Profile/${posts.author._id}`)
-            // }}
+             onClick={() => {
+              Navigate(`/Profile/${comments.user._id}`)
+            }}
           >
             <Avatar
               sx={{ bgcolor: red[500], mr: "10px" }}
@@ -142,8 +142,11 @@ const CommentSection = ({ id , user }) => {
               <Typography sx={{ fontSize: "12px", color: "gray" }}>
                 {comments.user.FirstName} {comments.user.LastName}
               </Typography>
-              <Typography sx={{ fontSize: "10px", color: "gray" }}>
-               {comments.user.date}
+              <Typography sx={{ fontSize: "10px", color: "gray"  }}>
+               {comments.user.createdAt.slice(0 , 10)}
+              </Typography>
+              <Typography sx={{ fontSize: "10px", color: "gray"  }}>
+               {comments.user.createdAt.slice(14 , 20)}
               </Typography>
             </Box>
           </Box>

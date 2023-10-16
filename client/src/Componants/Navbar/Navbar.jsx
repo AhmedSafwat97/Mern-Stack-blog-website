@@ -14,21 +14,16 @@ import ProfileMenu from "./profileMenu";
 import jwtDecode from "jwt-decode";
 import MailLink from "../MainLink";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useRef } from "react";
 
-
-const Navbar = () => {
-  const Location = useLocation();
+const Navbar = ({Search, setSearch}) => {
   const Navigat = useNavigate();
 
-  const [ShowGridTopics, setShowGridTopics] = useState(false);
   const [ShowMobileMenu, setShowMobileMenu] = useState(false);
 
-  const pages = [
-    { Name: "Home", path: "/" },
-
-    { Name: "Contact Us", path: "Contact" },
-  ];
+  const pages = [{ Name: "Home", path: "/" }];
 
   let user;
 
@@ -38,8 +33,6 @@ const Navbar = () => {
     user = jwtDecode(token);
   }
 
-
-
   const queryKey = ["usermenudata"];
 
   // Define a function to fetch the data from your API
@@ -48,12 +41,27 @@ const Navbar = () => {
     return response.data;
   };
 
+
   // Use the useQuery hook to fetch and manage the data
-  const { data : userData } = useQuery(queryKey, fetchData);
+  const { data: userData , isLoading } = useQuery(queryKey, fetchData);
 
+  const paperRef = useRef(null);
 
+  useEffect(() => {
+    // Function to handle clicks outside the Paper
+    const handleOutsideClick = (event) => {
+      if (paperRef.current && !paperRef.current.contains(event.target)) {
+        setShowMobileMenu(false);
+      }
+    };
+    // Add an event listener to the document when the menu is open
+    document.addEventListener("click", handleOutsideClick);
 
-
+    return () => {
+      // Clean up the event listener when the component unmounts
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   return (
     <>
@@ -78,7 +86,7 @@ const Navbar = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              width: { xs: "100%", lg: "75%" },
+              width: { xs: "100%", lg: "70%" },
             }}
           >
             <Typography
@@ -92,9 +100,25 @@ const Navbar = () => {
               WriteWave
             </Typography>
 
-
-
             <Box
+                sx={{
+                  position: "relative",
+                  display: { xs: "none", md: "block" },
+                  justifyContent: "center",
+                  mr: "20px",
+                }}
+              >
+                <SearchBox {...{setSearch , Search}} />
+                <SearchIcon
+                  sx={{
+                    color: "#FFF",
+                    position: "absolute",
+                    right: "5px",
+                    top: "8px",
+                  }}
+                />
+              </Box>{" "}
+            {/* <Box
               className="Pages"
               sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
             >
@@ -112,41 +136,15 @@ const Navbar = () => {
                           ? "2px solid #FFF"
                           : null,
                     }}
-                    onMouseEnter={() => {
-                      setShowGridTopics(page.Name === "Topics" ? true : null);
-                    }}
                   >
                     {page.Name}
                   </Typography>
                   {page.Icon}
                 </MenuItem>
               ))}
-              <TopicsMenu {...{ ShowGridTopics, setShowGridTopics }} />
-            </Box>
-
-
+            </Box> */}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box
-                sx={{
-                  position: "relative",
-                  display: { xs: "none", md: "block" },
-                  justifyContent: "center",
-                  mr: "10px",
-                }}
-              >
-                <SearchBox />
-                <SearchIcon
-                  sx={{
-                    color: "#FFF",
-                    position: "absolute",
-                    right: "5px",
-                    top: "8px",
-                  }}
-                />
-              </Box>
-              
-              
-              {" "}
+             
               {!user ? (
                 <>
                   <Button
@@ -166,17 +164,15 @@ const Navbar = () => {
                   >
                     Login
                   </Button>
-                 
                 </>
               ) : (
                 <Box>
                   <Box
+                    ref={paperRef}
                     sx={{
-                      // display: { xs: "none", md: "block" },
                       position: "relative",
                     }}
                   >
-                    
                     <Avatar
                       sx={{ bgcolor: red[500], mr: "10px", cursor: "pointer" }}
                       aria-label="profile"
@@ -188,40 +184,42 @@ const Navbar = () => {
                       {userData?.data.FirstName[0]}
                     </Avatar>
                     <Box>
-                      <ProfileMenu {...{ ShowMobileMenu , setShowMobileMenu , userData , user}} />
+                      <ProfileMenu
+                        {...{
+                          ShowMobileMenu,
+                          setShowMobileMenu,
+                          userData,
+                          user,
+                          isLoading
+                        }}
+                      />
                     </Box>
                   </Box>
                 </Box>
               )}
-
-
-
-            { !user && 
-           // mobile Menu 
-            <Box>
-            <Box
-              sx={{
-                position: "relative",
-                display : {xs :"block" , md : "none"}
-              }}
-            >
-              
-              <IconButton
-                    sx={{display : {xs :"block" , md : "none"}}}
+              {!user && (
+                // mobile Menu
+                <Box>
+                  <Box
+                    sx={{
+                      position: "relative",
+                      display: { xs: "block", md: "none" },
+                    }}
+                  >
+                    <IconButton
+                      sx={{ display: { xs: "block", md: "none" } }}
                       onClick={() => {
                         setShowMobileMenu(!ShowMobileMenu);
                       }}
                     >
                       <MenuIcon />
                     </IconButton>
-              <Box>
-                <ProfileMenu {...{ ShowMobileMenu , setShowMobileMenu }} />
-              </Box>
-            </Box>
-
-          </Box>
-            
-            }
+                    <Box>
+                      <ProfileMenu {...{ ShowMobileMenu, setShowMobileMenu }} />
+                    </Box>
+                  </Box>
+                </Box>
+              )}
             </Box>{" "}
           </Box>
         </Container>
@@ -234,7 +232,7 @@ const Navbar = () => {
             mb: "10px",
           }}
         >
-          <SearchBox />
+          <SearchBox {...{setSearch , Search}} />
           <SearchIcon
             sx={{
               color: "#FFF",

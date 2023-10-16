@@ -4,22 +4,24 @@ import {
   AccordionSummary,
   Avatar,
   Box,
+  CircularProgress,
   IconButton,
   Paper,
   Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import MailLink from "../MainLink";
+import axios from "axios";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user }) => {
+const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user , isLoading }) => {
 
   const pages = [
     { Name: "Home", path: "/" },
-    // { Name: "Profile", path: `/Profile/${user.userId}` },
-    { Name: "Contact", path: "/Contact" },
   ];
 
   const Navigat = useNavigate()
@@ -29,15 +31,42 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user }) =
     return filteredPages
   }
 
+  const queryClient = useQueryClient();
+
+  const queryKey = ["repoData"];
+  const fetchData = async () => {
+    const response = await axios.get(`${MailLink}/api/v1/categories`); // Replace with your API endpoint
+    return response.data;
+  };
+
+
+  // Use the useQuery hook to fetch and manage the data
+  const { data } = useQuery(queryKey, fetchData);
+
+  console.log(user);
+
+  // if (isLoading) {
+  //   return   <Box
+  //   sx={{
+  //     justifyContent: "center",
+  //     alignItems: "center",
+  //   }}
+  // >
+  //    <CircularProgress sx={{mx : "65px"}}/>
+  // </Box>
+  // }
 
 
   function SignOut() {
   
     const Signout = localStorage.removeItem("token")
+    queryClient.invalidateQueries();
+
    
     return Signout
    
     }
+
 
 
   return (
@@ -47,7 +76,7 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user }) =
         sx={{
           bgcolor: "#222F43",
           width: {xs : "250px" , lg : "300px"},
-          height: "fit-content",
+          maxHeight: {xs : "fit-content" , md :"400px"},
           position: "absolute",
           p: "10px",
           top: "100%",
@@ -82,22 +111,15 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user }) =
             }}
             aria-label="profile"
           >
-            R
+            {userData?.data.FirstName[0]}
           </Avatar>
           <Typography>Hi, {userData?.data.FirstName}</Typography>
         </Box>}
         <Box>
-          <Accordion sx={{bgcolor : "#0F172A" , borderRadius : "15px" , mb : "10px" }}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Show Menu</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
 
-              {pageview().map((page) => (
+
+
+        {pageview().map((page) => (
                 <Box
                   key={page.Name}
                   sx={{
@@ -118,6 +140,42 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user }) =
                   { page.Name  }
                 </Box>
               ))}
+
+
+
+
+
+          <Accordion sx={{bgcolor : "#0F172A" , borderRadius : "15px" , mb : "10px" }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Category Menu</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+            {data?.data.map((category) => (
+                <Box
+                  key={category._id}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    height: "30px",
+                    color: "#FFF",
+                    p: "10px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    Navigat(`/category/${category._id}`);
+                    setShowMobileMenu(false)
+                  }}
+                >
+                  { category.name  }
+                </Box>
+              ))}
+             
             </AccordionDetails>
           </Accordion>
           <Box

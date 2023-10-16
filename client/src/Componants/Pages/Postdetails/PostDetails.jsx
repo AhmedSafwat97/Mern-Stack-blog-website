@@ -1,4 +1,4 @@
-import { Avatar, Box, IconButton, Paper, Typography } from "@mui/material";
+import { Avatar, Box, CircularProgress, IconButton, Paper, Typography } from "@mui/material";
 import React from "react";
 import AvatarSection from "./AvatarSection";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,7 +17,7 @@ const PostDetails = () => {
 
     const {id} = useParams()
 
-    const queryKey = ["Post"];
+    const queryKey = ["Post" , id];
 
     const Navigate = useNavigate()
 
@@ -33,14 +33,16 @@ const PostDetails = () => {
     console.log(data);
   
   
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-  
-    if (isError) {
-      return <div>Error fetching data</div>;
-    }
-
+    // if (isError) {
+    //   return   <Box
+    //   sx={{
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //   }}
+    // >
+    //    <CircularProgress sx={{mx : "65px"}}/>
+    // </Box>
+    // }
 
     // Define a function to fetch the data from your API
     const deleteData = () => {
@@ -71,12 +73,12 @@ const PostDetails = () => {
         {/* Avatar Section */}
         <AvatarSection {...{data}} />
     
-        <Box sx={{ m: "30px 0" , display : "flex" }}>
-          <Typography variant="h6" sx={{ fontSize : { xs : "22px" , md :"30px"} , color: "#0DBADE" }}>
+        <Box sx={{ m: "30px 0" , display : "flex"  ,width : { xs : "90%" , md :"50%" } , alignItems : "center" ,justifyContent : "center" , flexDirection : {xs : "column" , md : "row"}}}>
+          <Typography variant="h6" sx={{fontSize : { xs : "22px" , md :"30px"} , color: "#0DBADE" , textAlign :{xs : "center" , md : "start"}}}>
             {data?.data.title}
           </Typography>
     
-        { user?.userId === data.data.author ? ( <Box sx={{display : "flex" , ml : "10px"}}>
+        { user?.userId === data?.data.author ? ( <Box sx={{display : "flex" , ml : "10px"}}>
           <IconButton
           onClick={() => {
             Navigate(`/editpost/${data?.data._id}`)

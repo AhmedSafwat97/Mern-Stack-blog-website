@@ -4,7 +4,7 @@ import { Box, Button, IconButton, Typography } from "@mui/material";
 const HeroSec = () => {
     return (
         <Box sx={{display : "flex" , justifyContent : "center" , m : "30px 0" , p : "20px 0"}}>
-            <Box sx={{textAlign : "center"}}>
+            <Box sx={{textAlign : "center" , p : "10px"}}>
                 <Typography sx={{color : "gray"}}>Welcom To Our Blog</Typography>
                 <Box>
                 <Typography variant='h3' sx={{color : "#FFF"}}>

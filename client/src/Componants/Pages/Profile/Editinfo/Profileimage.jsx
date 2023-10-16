@@ -42,7 +42,7 @@ export default function Profileimage({id , data , queryKey}) {
         },
       });
         // After a successful comment submission, invalidate the comments query
-        queryClient.invalidateQueries(queryKey);
+        queryClient.invalidateQueries();
 
       console.log("Response from Update request:", response.data);
     } catch (error) {

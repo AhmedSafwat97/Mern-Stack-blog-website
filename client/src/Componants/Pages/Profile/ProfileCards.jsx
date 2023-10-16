@@ -7,7 +7,7 @@ import { red } from "@mui/material/colors";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-import { Box, Button } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MailLink from "../../MainLink";
 
@@ -15,7 +15,7 @@ export default function ProfileCard({id , user}) {
 
   const Navigate = useNavigate();
 
-  const queryKey = ["posts"];
+  const queryKey = ["userposts" , id];
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
@@ -31,7 +31,7 @@ export default function ProfileCard({id , user}) {
   console.log(data);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CircularProgress/></div>;
   }
 
   if (isError) {

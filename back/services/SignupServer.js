@@ -95,8 +95,6 @@ exports.login = asyncHandler(async (req, res, next) => {
   });
 
 
-
-
   exports.getAuthorById = asyncHandler(async (req, res) => {
     const { id } = req.params;
     
@@ -106,10 +104,6 @@ exports.login = asyncHandler(async (req, res, next) => {
       ? res.status(404).json({ msg: "there is no user for this id" })
       : res.status(200).json({ data: user });
   });
-
-
-
-
 
 // @desc    Update specific user
 // @route   PUT /api/v1/auth/:id

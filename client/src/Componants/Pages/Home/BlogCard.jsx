@@ -17,7 +17,7 @@ export default function BlogCard() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
+  const postsPerPage = 4;
 
   // c = 2 , p per page = 3 , indexLast = 2 * 3 = 6 , indexoffirst = 6 - 3 = 3
   const indexOfLastPost = currentPage * postsPerPage;
@@ -41,17 +41,11 @@ export default function BlogCard() {
   };
   
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
-
-  console.log(data);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const { data} = useQuery(queryKey, fetchData);
 
   return (
-    <Box sx={{display : "block"}}>
-    <Box sx={{display : "flex" , justifyContent : "center" ,flexWrap : "wrap" , width : "100%"}}>
+    <Box sx={{display : "block" , width : {xs : "100%"  ,md :"75%"}}}>
+    <Box sx={{display : "flex" , justifyContent : "center" ,flexWrap : "wrap" , width : "90%" , mx : "auto"}}>
       {data?.data.reverse().slice(indexOfFirstPost, indexOfLastPost).map((posts) => (
         <Card
           key={posts._id}
@@ -109,7 +103,7 @@ export default function BlogCard() {
                 aria-label="Author"
                 src={posts.author.profileimage}
               >
-                {posts.author.FirstName}
+                {posts.author.FirstName[0]}
               </Avatar>
               <Box>
                 <Typography sx={{ fontSize: "12px", color: "gray" }}>

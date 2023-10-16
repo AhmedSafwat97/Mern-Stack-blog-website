@@ -9,8 +9,29 @@ import PostDetails from "./Componants/Pages/Postdetails/PostDetails";
 import Editinfo from "./Componants/Pages/Profile/Editinfo/Editinfo";
 import Profile from "./Componants/Pages/Profile/Profile";
 import Categories from "./Componants/Pages/categories/categories";
+import { useState } from "react";
+import SearchResult from "./Componants/Pages/Search/SearchResult";
+import axios from "axios";
+import MailLink from "./Componants/MainLink";
+import { useQuery } from "@tanstack/react-query";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 function App() {
+  const [Search, setSearch] = useState("");
+
+  const queryKey = ["posts"];
+
+  // Define a function to fetch the data from your API
+  const fetchData = async () => {
+    const response = await axios.get(`${MailLink}/api/v1/post?page=1&limit=20`); // Replace with your API endpoint
+    return response.data;
+  };
+
+  // Use the useQuery hook to fetch and manage the data
+  const { data, isLoading } = useQuery(queryKey, fetchData);
+
+  console.log(data);
+
   return (
     <div
       className="App"
@@ -20,28 +41,54 @@ function App() {
         backgroundColor: "#0F172A",
       }}
     >
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/SignUp" element={<Signup />} />
-          {/* <Route path="/forgotpass" element={<Profile/>} /> */}
-          <Route path="/category/:id" element={<Categories/>} />
-          <Route path="/postDetails/:id" element={<PostDetails />} />
-          <Route path="/Createnewpost" element={<CreateNewpost />} />
-          <Route path="/editpost/:id" element={<CreateNewpost />} />
-          <Route path="/Profile/:id" element={<Profile />} />
-          <Route path="/editprofile/:id" element={<Editinfo />} />
-          {/* <Route path="/search" element={<Profile/>} /> */}
 
-          {/* make recommended section with random number */}
-          {/* make forgot pass */}
-          {/* make category page */}
-          {/* make search page */}
-        </Routes>
-        <Footer />
-      </Router>
+      {isLoading && (
+        <Box
+          sx={{
+            maxWidth: "1536px",
+            height: "100vh",
+            backgroundColor: "#0F172A",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+         <Box>
+           <CircularProgress sx={{mx : "65px"}}/>
+           <Typography
+              variant="h3"
+              className="logo"
+              sx={{ fontSize: "30px", fontWeight: "800", cursor: "pointer" }}
+            >
+              WriteWave
+            </Typography>
+         </Box>
+        </Box>
+      )}
+
+
+      {data && (
+        <Router>
+          <Navbar {...{ Search, setSearch }} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/SignUp" element={<Signup />} />
+            {/* <Route path="/forgotpass" element={<Profile/>} /> */}
+            <Route path="/category/:id" element={<Categories />} />
+            <Route path="/postDetails/:id" element={<PostDetails />} />
+            <Route path="/Createnewpost" element={<CreateNewpost />} />
+            <Route path="/editpost/:id" element={<CreateNewpost />} />
+            <Route path="/Profile/:id" element={<Profile />} />
+            <Route path="/editprofile/:id" element={<Editinfo />} />
+            <Route
+              path="/search"
+              element={<SearchResult {...{ Search, setSearch }} />}
+            />
+          </Routes>
+          <Footer />
+        </Router>
+      )}
     </div>
   );
 }

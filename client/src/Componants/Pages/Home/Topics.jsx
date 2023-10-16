@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import MailLink from "../../MainLink";
@@ -23,11 +23,25 @@ const Topics = () => {
 
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return  <Box
+    sx={{
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+     <CircularProgress sx={{mx : "65px"}}/>
+  </Box>
   }
 
   if (isError) {
-    return <div>Error fetching data</div>;
+    return   <Box
+    sx={{
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+     <CircularProgress sx={{mx : "65px"}}/>
+  </Box>
   }
 
 
@@ -47,7 +61,7 @@ const Topics = () => {
         <Typography variant="h4" sx={{ color: "#0DBADE" }}>
           Trending Topics
         </Typography>
-        <Typography sx={{ color: "gray" }}>
+        <Typography sx={{ color: "gray" , p  :"10px" }}>
           Discover the most outstanding articles in all topics
         </Typography>
       </Box>
@@ -55,7 +69,8 @@ const Topics = () => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", md: "row" },
+          flexWrap : "wrap" ,
+          justifyContent : "center" ,
           m: "10px 0",
         }}
       >
