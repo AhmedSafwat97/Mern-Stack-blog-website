@@ -118,7 +118,7 @@ exports.updateUserInfo = asyncHandler(async (req, res) => {
     const filename = req.file.filename;
 
     // Construct the image URL
-    const imageUrl = `http://localhost:5000/uploads/${filename}`;
+    const imageUrl = `https://social-media-blog-n136.onrender.com/uploads/${filename}`;
 
     // Set the imageCover field to the imageUrl
     req.body.profileimage = imageUrl;
@@ -150,7 +150,9 @@ exports.updateprofileimage = asyncHandler(async (req, res) => {
   const filename = req.file.filename;
 
   // Construct the image URL
+
   const imageUrl = `https://social-media-blog-n136.onrender.com/uploads/${filename}`;
+
 
   // Create an object to specify the update, in this case, the `profileimage` field
   const update = { profileimage: imageUrl };
