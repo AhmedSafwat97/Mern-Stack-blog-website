@@ -1,3 +1,3 @@
-const MailLink = "https://social-media-blog-yfrv.onrender.com"
+const MailLink = "https://social-media-blog-n136.onrender.com/"
 
 export default MailLink
