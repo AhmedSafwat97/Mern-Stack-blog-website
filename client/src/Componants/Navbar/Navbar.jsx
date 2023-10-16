@@ -205,6 +205,8 @@ const Navbar = ({Search, setSearch}) => {
                       position: "relative",
                       display: { xs: "block", md: "none" },
                     }}
+
+                    ref={paperRef}
                   >
                     <IconButton
                       sx={{ display: { xs: "block", md: "none" } }}

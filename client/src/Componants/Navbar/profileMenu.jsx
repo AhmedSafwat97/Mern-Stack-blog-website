@@ -87,7 +87,7 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user , is
           overflowX : "hidden"
         }}
       >
-       { userData && <Box
+       { user && <Box
           sx={{
             m: "20px 0",
             display: "flex",
@@ -178,27 +178,30 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user , is
              
             </AccordionDetails>
           </Accordion>
+         {user && 
           <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "30px",
-                    color: "#FFF",
-                    p: "10px",
-                    cursor: "pointer",
-                  }}
-                  onClick={
-                    () => {
-                      SignOut()
-                      Navigat("/")
-                      setShowMobileMenu(false)
-                    }
-                  }
-                >
-                 LogOut
-                </Box>
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "30px",
+            color: "#FFF",
+            p: "10px",
+            cursor: "pointer",
+          }}
+          onClick={
+            () => {
+              SignOut()
+              Navigat("/")
+              setShowMobileMenu(false)
+            }
+          }
+        >
+         LogOut
+        </Box>
+         
+         }
         </Box>
       </Paper>}
   </>

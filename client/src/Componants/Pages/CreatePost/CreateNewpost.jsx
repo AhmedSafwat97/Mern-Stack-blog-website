@@ -154,19 +154,18 @@ const CreateNewpost = () => {
        
        <Typography>{Errormessage}</Typography>
        <Box sx={{ width: { xs: "90%", md: "70%" } }}>
-         <FormControl
-           sx={{ width: "100%", borderRadius: "10px", m: "15px 0" }}
-           variant="filled"
-         >
-           <OutlinedInput
+       
+         <TextField
+           fullWidth
+           id="outlined-multiline-static"
+           multiline
            placeholder="Title"
-             defaultValue={!id ? title : postData?.data.title}
-             onChange={(e) => {
-               setTitle(e.target.value);
-               console.log(title);
-             }}
-           />
-         </FormControl>
+           sx={{ m: "10px 0" }}
+           defaultValue={!id ? title : postData?.data.title}
+           onChange={(e) => {
+            setTitle(e.target.value);
+           }}
+         />
     
          <Box sx={{ display: "flex", m: "10px 0" }}>
            <FileUpload {...{ imageCover, setimage ,postData , id}} />
@@ -216,7 +215,7 @@ const CreateNewpost = () => {
            <Button
              variant="contained"
              onClick={() => {
-               if (title !== "" ) {
+               if (title !== "" , content !== "" && category !== "" ) {
                id ? updateposts() : submitposts();
                } else {
                 window.scrollTo(0, 0);

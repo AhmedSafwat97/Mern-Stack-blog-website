@@ -12,7 +12,7 @@ import MailLink from "../../MainLink";
 const AvatarSection = ({data}) => {
 
 
-  const queryKey = ["userinfo"];
+  const queryKey = ["userinfo" , data];
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
