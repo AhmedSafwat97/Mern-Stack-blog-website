@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -13,7 +13,6 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import MailLink from "../../MainLink";
 import ScrollToTop from "../../../ScrollToTop";
-import "../../../index.css"
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);

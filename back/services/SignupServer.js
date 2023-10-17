@@ -131,12 +131,25 @@ exports.updateUserInfo = asyncHandler(async (req, res) => {
     { new: true } //to return the after updateing
   );
 
-  delete user._doc.password;
+
+  const userObject = {
+    userId : user._id ,
+    email : user.Email ,
+    firstname : user.FirstName ,
+    lastname : user.LastName ,
+    image : user.profileimage
+  }
+
+// 3) generate token
+const token = createToken(userObject);
+
+// Delete password from response
+delete user._doc.password;
 
 
   !user
     ? res.status(404).json({ msg: "there is no user for this id" })
-    : res.status(200).json({ data: user });
+    : res.status(200).json({ data: user , NewToken : token });
 
 });
 
@@ -161,10 +174,25 @@ exports.updateprofileimage = asyncHandler(async (req, res) => {
     new: true, // Return the updated document
   });
 
+
+  const userObject = {
+    userId : user._id ,
+    email : user.Email ,
+    firstname : user.FirstName ,
+    lastname : user.LastName ,
+    image : user.profileimage
+  }
+
+// 3) generate token
+const token = createToken(userObject);
+
+// Delete password from response
+delete user._doc.password;
+
   if (!user) {
     res.status(404).json({ msg: "There is no user for this id" });
   } else {
-    res.status(200).json({ data: user });
+    res.status(200).json({ data: user , NewToken : token });
   }
 });
 
