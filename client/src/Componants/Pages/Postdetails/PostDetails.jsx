@@ -1,4 +1,4 @@
-import { Avatar, Box, CircularProgress, IconButton, Paper, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import React from "react";
 import AvatarSection from "./AvatarSection";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,21 +28,21 @@ const PostDetails = () => {
     };
   
     // Use the useQuery hook to fetch and manage the data
-    const { data, isLoading, isError } = useQuery(queryKey, fetchData);
-  
-    console.log(data);
+    const { data, isLoading } = useQuery(queryKey, fetchData);
   
   
-    // if (isError) {
-    //   return   <Box
-    //   sx={{
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //   }}
-    // >
-    //    <CircularProgress sx={{mx : "65px"}}/>
-    // </Box>
-    // }
+  
+    if (isLoading) {
+      return   <Box
+      sx={{
+        justifyContent: "center",
+        display : "flex",
+        width : "100%"
+      }}
+    >
+       <CircularProgress sx={{mx : "65px"}}/>
+    </Box>
+    }
 
     // Define a function to fetch the data from your API
     const deleteData = () => {

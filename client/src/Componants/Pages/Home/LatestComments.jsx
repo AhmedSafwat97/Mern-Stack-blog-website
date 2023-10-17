@@ -1,13 +1,11 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, CircularProgress, Typography } from "@mui/material";
 import axios from "axios";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import MailLink from "../../MainLink";
 import { useQuery } from "@tanstack/react-query";
 import { red } from "@mui/material/colors";
 
 const LatestComment = () => {
-  const Navigate = useNavigate();
 
   const queryKey = ["comments"];
 
@@ -18,12 +16,18 @@ const LatestComment = () => {
   };
 
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
-
-  console.log(data);
+  const { data, isLoading } = useQuery(queryKey, fetchData);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Box
+    sx={{
+      justifyContent: "center",
+      alignItems: "center",
+      width : "100%"
+    }}
+  >
+     <CircularProgress sx={{mx : "65px"}}/>
+  </Box>
   }
 
   return (

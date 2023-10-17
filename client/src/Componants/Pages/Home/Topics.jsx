@@ -19,14 +19,13 @@ const Topics = () => {
   // Use the useQuery hook to fetch and manage the data
   const { data, isLoading, isError } = useQuery(queryKey, fetchData);
 
-  console.log(data);
-
 
   if (isLoading) {
     return  <Box
     sx={{
       justifyContent: "center",
       alignItems: "center",
+      width : "100%"
     }}
   >
      <CircularProgress sx={{mx : "65px"}}/>

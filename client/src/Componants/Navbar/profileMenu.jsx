@@ -4,15 +4,11 @@ import {
   AccordionSummary,
   Avatar,
   Box,
-  CircularProgress,
-  IconButton,
   Paper,
   Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React, { useEffect, useRef } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import MailLink from "../MainLink";
 import axios from "axios";
@@ -26,11 +22,6 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user , is
 
   const Navigat = useNavigate()
 
-  function pageview() {
-    const filteredPages = !user ? pages.filter((page) => page.Name !== "Profile") : pages
-    return filteredPages
-  }
-
   const queryClient = useQueryClient();
 
   const queryKey = ["repoData"];
@@ -43,26 +34,12 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user , is
   // Use the useQuery hook to fetch and manage the data
   const { data } = useQuery(queryKey, fetchData);
 
-  console.log(user);
-
-  // if (isLoading) {
-  //   return   <Box
-  //   sx={{
-  //     justifyContent: "center",
-  //     alignItems: "center",
-  //   }}
-  // >
-  //    <CircularProgress sx={{mx : "65px"}}/>
-  // </Box>
-  // }
 
 
   function SignOut() {
   
     const Signout = localStorage.removeItem("token")
     queryClient.invalidateQueries();
-
-   
     return Signout
    
     }
@@ -119,7 +96,7 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user , is
 
 
 
-        {pageview().map((page) => (
+        {pages.map((page) => (
                 <Box
                   key={page.Name}
                   sx={{
@@ -193,8 +170,7 @@ const ProfileMenu = ({ShowMobileMenu , setShowMobileMenu  , userData , user , is
           onClick={
             () => {
               SignOut()
-              Navigat("/")
-              setShowMobileMenu(false)
+              Navigat("/login")
             }
           }
         >

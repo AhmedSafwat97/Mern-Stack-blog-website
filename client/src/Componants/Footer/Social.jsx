@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -16,25 +16,25 @@ const Social = () => {
         p: "10px 0",
       }}
     >
-      <Typography>Created by AhmedSafwat</Typography>
+      <a href="https://ahmedsafwat-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer" >Created by AhmedSafwat</a>
 
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ mr: "15px", display: "flex", alignItems: "center" }}>
-          <a href="http" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.facebook.com/a7med.sfwat28/" target="_blank" rel="noopener noreferrer">
             <FacebookOutlinedIcon />
           </a>
           Facebook
         </Box>
 
         <Box sx={{ mr: "15px", display: "flex", alignItems: "center" }}>
-          <a href="http" target="_blank" rel="noopener noreferrer">
+          <a href="insta" target="_blank" rel="noopener noreferrer">
             <InstagramIcon />
           </a>
           Instagram
         </Box>
 
         <Box sx={{ mr: "15px", display: "flex", alignItems: "center" }}>
-          <a href="http" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/ahmad-safwat-07064223b/" target="_blank" rel="noopener noreferrer">
             <LinkedInIcon />
           </a>
           LinkedIn

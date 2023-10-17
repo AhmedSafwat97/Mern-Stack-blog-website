@@ -55,14 +55,14 @@ const CommentSection = ({ id , user }) => {
         post: id
       });
 
-      console.log("Response from POST request:", response.data);
+      // console.log("Response from POST request:", response.data);
 
       // After a successful comment submission, invalidate the comments query
       queryClient.invalidateQueries(queryKey);
 
       setComment("");
     } catch (error) {
-      console.error("Error", error);
+      // console.error("Error", error);
       setmessage(error);
     }
   };
@@ -79,7 +79,7 @@ const CommentSection = ({ id , user }) => {
   // Use the useQuery hook to fetch and manage the data
   const { data, isLoading, isError } = useQuery(queryKey, fetchData);
 
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) {
     return <div>Loading...</div>;

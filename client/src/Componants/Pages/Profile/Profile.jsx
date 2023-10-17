@@ -33,20 +33,20 @@ const Profile = () => {
   };
 
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+  const { data, isLoading } = useQuery(queryKey, fetchData);
 
-  console.log(data);
 
-  // if (isLoading) {
-  //   return   <Box
-  //   sx={{
-  //     justifyContent: "center",
-  //     alignItems: "center",
-  //   }}
-  // >
-  //    <CircularProgress sx={{mx : "65px"}}/>
-  // </Box>
-  // }
+  if (isLoading) {
+    return   <Box
+    sx={{
+      display : "flex" ,
+      justifyContent: "center",
+      width : "100%"
+    }}
+  >
+     <CircularProgress sx={{mx : "65px"}}/>
+  </Box>
+  }
   
 
   let user;

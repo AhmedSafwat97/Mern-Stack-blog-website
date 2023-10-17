@@ -22,10 +22,9 @@ const SearchResult = ({setSearch , Search}) => {
     };
   
     // Use the useQuery hook to fetch and manage the data
-    const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+    const { data, isLoading } = useQuery(queryKey, fetchData);
   
-    console.log(data);
-  
+
     if (isLoading) {
       return <div>Loading...</div>;
     }

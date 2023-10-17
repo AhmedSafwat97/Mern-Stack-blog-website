@@ -18,9 +18,8 @@ const PopularPost = () => {
   };
 
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+  const { data, isLoading } = useQuery(queryKey, fetchData);
 
-  console.log(data);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -39,7 +38,7 @@ const PopularPost = () => {
 
       {data?.data
         .reverse()
-        .slice(0, 5)
+        .slice(0, 4)
         .map((posts, index) => (
           <Box key={posts._id} sx={{cursor : "pointer"}}
           onClick={() => {

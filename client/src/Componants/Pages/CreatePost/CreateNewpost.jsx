@@ -1,17 +1,17 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import "react-dropzone-uploader/dist/styles.css"; // Import the styles
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import FileUpload from "./FileUpload ";
 import { useNavigate, useParams } from "react-router-dom";
@@ -26,16 +26,16 @@ const CreateNewpost = () => {
   const [content, setContent] = useState("");
   const [category, setcategory] = useState("");
   const [Errormessage, setErrormessage] = useState(null);
-
+const [Loading, setLoading] = useState(false);
   const {id} = useParams()
-  console.log(id);
+  // console.log(id);
 
   const Navigate = useNavigate();
   const queryKey = ["repoData"];
 
   const QueryKey = ["postdata"];
 
-  const QueryKeypost = ["updatepostdata"];
+  // const QueryKeypost = ["updatepostdata"];
 
 
 
@@ -56,7 +56,7 @@ const CreateNewpost = () => {
         content: content ,
       });
       Navigate("/")
-      console.log("Response from PUT request:", response.data);
+      // console.log("Response from PUT request:", response.data);
     } catch (error) {
       console.error("Error updating:", error);
     }
@@ -72,7 +72,6 @@ const CreateNewpost = () => {
   // Use the useQuery hook to fetch and manage the data
   const { data : postData  } = useQuery(QueryKey, fetchPostData);
 
-  console.log(postData);
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
@@ -118,15 +117,14 @@ const CreateNewpost = () => {
           },
         }
       );
-      console.log("Response from POST request:", response.data);
+      // console.log("Response from POST request:", response.data);
       Navigate("/");
     } catch (error) {
-      console.error("Error uploading image:", error);
+      // console.error("Error uploading image:", error);
       setErrormessage(error)
     }
   };
 
-  console.log(user.userId);
 
   return (
    <>
@@ -188,7 +186,7 @@ const CreateNewpost = () => {
                  value={cat._id}
                  onClick={() => {
                    setcategory(cat._id);
-                   console.log(category);
+                  //  console.log(category);
                  }}
                >
                  {cat.name}
@@ -215,15 +213,17 @@ const CreateNewpost = () => {
            <Button
              variant="contained"
              onClick={() => {
-               if (title !== "" , content !== "" && category !== "" ) {
+               if (title !== "" && content !== "" && category !== "" ) {
                id ? updateposts() : submitposts();
+               setLoading(true)
                } else {
                 window.scrollTo(0, 0);
                 setErrormessage("There is an error in the inputs")
+                
                }
              }}
            >
-             Send
+             {Loading ? <CircularProgress sx={{mx : "65px"}}/> : "Send"} 
            </Button>
          </Box>
        </Box>

@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
-import BlogCard from "./BlogCard";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Avatar from "@mui/material/Avatar";
@@ -24,9 +23,8 @@ const RecentPosts = () => {
   };
 
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+  const { data, isLoading } = useQuery(queryKey, fetchData);
 
-  console.log(data);
 
   if (isLoading) {
     return   <Box
@@ -82,7 +80,7 @@ const RecentPosts = () => {
               component="img"
               height="170"
               image={posts.imageCover}
-              alt="Paella dish"
+              alt="Post Cover"
             />
     
             <Box sx={{ display: "flex" }}>

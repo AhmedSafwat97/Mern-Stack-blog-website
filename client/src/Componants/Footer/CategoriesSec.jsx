@@ -5,7 +5,7 @@ const CategoriesSec = () => {
 
 const catarray = [
 
-"Action" , "Bussness" , " Advanture"  , "Sport" , "Tech"
+"Programming" , "Bussness" , " Fashion"  , "Sport" , "LifeStyle" , "Naure"
 
 ]
 

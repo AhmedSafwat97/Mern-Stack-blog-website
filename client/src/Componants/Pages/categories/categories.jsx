@@ -41,7 +41,6 @@ const Categories = () => {
   // Use the useQuery hook to fetch and manage the data
   const { data: category } = useQuery(QueryKey, fetchCatedata);
 
-  console.log(category);
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
@@ -54,7 +53,6 @@ const Categories = () => {
   // Use the useQuery hook to fetch and manage the data
   const { data } = useQuery(queryKey, fetchData);
 
-  console.log(data);
 
   return (
     <>
@@ -183,7 +181,7 @@ const Categories = () => {
 
         <Box sx={{ p: "10px" }}>
           <Pagination
-            count={Math.ceil(data?.data.length / postsPerPage)}
+            count={data ? Math.ceil(data?.data.length / postsPerPage) : 1}
             page={currentPage}
             onChange={handlePageChange}
             color="secondary"

@@ -7,7 +7,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Typography } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MailLink from "../../MainLink";
@@ -28,6 +28,8 @@ const SignUp = () => {
   const [LastName, setLastName] = useState("");
   const [Email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  const [Loading, setLoading] = useState(false);
+  const [errrormessage, seterrrormessage] = useState("");
 
   const submitSignIn = async () => {
     try {
@@ -37,20 +39,22 @@ const SignUp = () => {
         FirstName: FirstName,
         LastName: LastName,
       });
-      console.log("Response from POST request:", response.data);
-
+      // console.log("Response from POST request:", response.data);
+      Navigat("/Login");
       // Handle successful response here
     } catch (error) {
+      seterrrormessage( "Email already in use" )
+      setLoading(false)
       if (error.response) {
         // The request was made, but the server responded with an error status code
-        console.error("Response error data:", error.response.data);
-        console.error("Response error status:", error.response.status);
+        // console.error("Response error data:", error.response.data);
+        // console.error("Response error status:", error.response.status);
       } else if (error.request) {
         // The request was made but no response was received
-        console.error("Request error:", error.request);
+        // console.error("Request error:", error.request);
       } else {
         // Something happened in setting up the request that triggered an error
-        console.error("General error:", error.message);
+        // console.error("General error:", error.message);
       }
     }
   };
@@ -72,7 +76,7 @@ const SignUp = () => {
             Create an account
           </Typography>
         </Box>
-
+        <Typography>{errrormessage}</Typography>
         <Box
           sx={{
             width: "280px",
@@ -170,11 +174,11 @@ const SignUp = () => {
               },
             }}
             onClick={() => {
+              setLoading(true)
               submitSignIn();
-              Navigat("/Login");
             }}
           >
-            Sign up
+            {Loading ? <CircularProgress sx={{mx : "65px"}}/> : "Sign in"}
           </Button>
 
           <Box

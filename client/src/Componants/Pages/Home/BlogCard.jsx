@@ -4,7 +4,6 @@ import CardMedia from "@mui/material/CardMedia";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Box, Pagination } from "@mui/material";
@@ -66,7 +65,7 @@ export default function BlogCard() {
             component="img"
             height="170"
             image={posts.imageCover}
-            alt="profile"
+            alt="Post Cover"
             onClick={() => {
               Navigate(`/postDetails/${posts._id}`);
             }}

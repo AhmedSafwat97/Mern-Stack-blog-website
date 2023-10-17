@@ -5,15 +5,13 @@ import {
   Avatar,
   Box,
   Button,
-  IconButton,
-  Paper,
+  CircularProgress,
   TextField,
   Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import jwtDecode from "jwt-decode";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import MailLink from "../../../MainLink";
@@ -26,13 +24,13 @@ const Editinfo = () => {
 
   const { id } = useParams();
 
-  let user;
+  // let user;
 
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
-  if (token) {
-    user = jwtDecode(token);
-  }
+  // if (token) {
+  //   user = jwtDecode(token);
+  // }
 
   // console.log(user);
 
@@ -76,16 +74,12 @@ const Editinfo = () => {
   };
 
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+  const { data, isLoading } = useQuery(queryKey, fetchData);
 
   // console.log(data);
 
   if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
+    return <Box sx={{width : "100%" , display : "flex" , justifyContent : "center"}}><CircularProgress/></Box>;
   }
 
   return (
@@ -117,7 +111,7 @@ const Editinfo = () => {
           aria-label="profile"
           src={data?.data.profileimage}
         >
-          R
+          {data?.data.FirstName[0]}
         </Avatar>
       </Box>
 

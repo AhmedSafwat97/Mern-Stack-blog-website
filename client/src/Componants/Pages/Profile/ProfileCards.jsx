@@ -26,17 +26,22 @@ export default function ProfileCard({id , user}) {
   };
 
   // Use the useQuery hook to fetch and manage the data
-  const { data, isLoading, isError } = useQuery(queryKey, fetchData);
+  const { data, isLoading } = useQuery(queryKey, fetchData);
 
-  console.log(data);
 
   if (isLoading) {
-    return <div><CircularProgress/></div>;
+    return <Box
+    sx={{
+      justifyContent: "center",
+      alignItems: "center",
+      width : "100%"
+    }}
+  >
+     <CircularProgress sx={{mx : "65px"}}/>
+  </Box>
   }
 
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
+
 
   return (
     <>
@@ -73,7 +78,7 @@ export default function ProfileCard({id , user}) {
               variant="h6"
               sx={{ fontSize: "18px", fontWeight: "600", ml: "10px" }}
             >
-              {posts.title}
+              {posts.title.slice(0 , 40)}
             </Typography>
           </Box>
 

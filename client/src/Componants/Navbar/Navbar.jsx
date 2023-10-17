@@ -2,11 +2,10 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { MenuItem, Button, Container, Avatar, IconButton } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Button, Container, Avatar, IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import TopicsMenu from "./TopicsMenu";
 import SearchBox from "./SearchBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { red } from "@mui/material/colors";
@@ -14,16 +13,14 @@ import ProfileMenu from "./profileMenu";
 import jwtDecode from "jwt-decode";
 import MailLink from "../MainLink";
 import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useRef } from "react";
 
-const Navbar = ({Search, setSearch}) => {
+const Navbar = ({ Search, setSearch }) => {
   const Navigat = useNavigate();
 
   const [ShowMobileMenu, setShowMobileMenu] = useState(false);
-
-  const pages = [{ Name: "Home", path: "/" }];
 
   let user;
 
@@ -37,13 +34,16 @@ const Navbar = ({Search, setSearch}) => {
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
-    const response = await axios.get(`${MailLink}/api/v1/auth/${user.userId}`); // Replace with your API endpoint
-    return response.data;
+    if (user) {
+      const response = await axios.get(`${MailLink}/api/v1/auth/${user?.userId}`);
+      return response.data;
+    } else {
+      return null
+    }
   };
 
-
   // Use the useQuery hook to fetch and manage the data
-  const { data: userData , isLoading } = useQuery(queryKey, fetchData);
+  const { data: userData, isLoading } = useQuery(queryKey, fetchData);
 
   const paperRef = useRef(null);
 
@@ -64,188 +64,168 @@ const Navbar = ({Search, setSearch}) => {
   }, []);
 
   return (
-    <>
-      <AppBar
-        position="static"
+    <AppBar
+      position="static"
+      sx={{
+        height: { xs: "fit-content", md: "80px" },
+        bgcolor: "transparent",
+      }}
+    >
+      <Container
+        maxWidth="xl"
         sx={{
-          height: { xs: "fit-content", md: "80px" },
-          bgcolor: "transparent",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "80px",
         }}
       >
-        <Container
-          maxWidth="xl"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "80px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: { xs: "100%", lg: "70%" },
-            }}
-          >
-            <Typography
-              variant="h3"
-              className="logo"
-              sx={{ fontSize: "30px", fontWeight: "800", cursor: "pointer" }}
-              onClick={() => {
-                Navigat("/");
-              }}
-            >
-              WriteWave
-            </Typography>
-
-            <Box
-                sx={{
-                  position: "relative",
-                  display: { xs: "none", md: "block" },
-                  justifyContent: "center",
-                  mr: "20px",
-                }}
-              >
-                <SearchBox {...{setSearch , Search}} />
-                <SearchIcon
-                  sx={{
-                    color: "#FFF",
-                    position: "absolute",
-                    right: "5px",
-                    top: "8px",
-                  }}
-                />
-              </Box>{" "}
-            {/* <Box
-              className="Pages"
-              sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page.Name} onClick={() => {}}>
-                  <Typography
-                    textAlign="center"
-                    onClick={() => {
-                      Navigat(page.path);
-                      setShowGridTopics(false);
-                    }}
-                    sx={{
-                      borderBottom:
-                        Location.pathname === page.path
-                          ? "2px solid #FFF"
-                          : null,
-                    }}
-                  >
-                    {page.Name}
-                  </Typography>
-                  {page.Icon}
-                </MenuItem>
-              ))}
-            </Box> */}
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-             
-              {!user ? (
-                <>
-                  <Button
-                    sx={{
-                      color: "#FFF",
-                      bgcolor: "#0DAEE4",
-                      borderRadius: "20px",
-                      width: "90px",
-                      height: "fit-content",
-                      ":hover": {
-                        bgcolor: "#0DAEE",
-                      },
-                    }}
-                    onClick={() => {
-                      Navigat("/Login");
-                    }}
-                  >
-                    Login
-                  </Button>
-                </>
-              ) : (
-                <Box>
-                  <Box
-                    ref={paperRef}
-                    sx={{
-                      position: "relative",
-                    }}
-                  >
-                    <Avatar
-                      sx={{ bgcolor: red[500], mr: "10px", cursor: "pointer" }}
-                      aria-label="profile"
-                      onClick={() => {
-                        setShowMobileMenu(!ShowMobileMenu);
-                      }}
-                      src={userData?.data.profileimage}
-                    >
-                      {userData?.data.FirstName[0]}
-                    </Avatar>
-                    <Box>
-                      <ProfileMenu
-                        {...{
-                          ShowMobileMenu,
-                          setShowMobileMenu,
-                          userData,
-                          user,
-                          isLoading
-                        }}
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-              )}
-              {!user && (
-                // mobile Menu
-                <Box>
-                  <Box
-                    sx={{
-                      position: "relative",
-                      display: { xs: "block", md: "none" },
-                    }}
-
-                    ref={paperRef}
-                  >
-                    <IconButton
-                      sx={{ display: { xs: "block", md: "none" } }}
-                      onClick={() => {
-                        setShowMobileMenu(!ShowMobileMenu);
-                      }}
-                    >
-                      <MenuIcon />
-                    </IconButton>
-                    <Box>
-                      <ProfileMenu {...{ ShowMobileMenu, setShowMobileMenu }} />
-                    </Box>
-                  </Box>
-                </Box>
-              )}
-            </Box>{" "}
-          </Box>
-        </Container>
-        {/* For Mobile Search */}
         <Box
           sx={{
-            position: "relative",
-            display: { xs: "flex", md: "none" },
-            justifyContent: "center",
-            mb: "10px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: { xs: "100%", lg: "70%" },
           }}
         >
-          <SearchBox {...{setSearch , Search}} />
-          <SearchIcon
-            sx={{
-              color: "#FFF",
-              position: "absolute",
-              right: "16%",
-              top: "8px",
+          <Typography
+            variant="h3"
+            className="logo"
+            sx={{ fontSize: "30px", fontWeight: "800", cursor: "pointer" }}
+            onClick={() => {
+              Navigat("/");
             }}
-          />
+          >
+            WriteWave
+          </Typography>
+
+          <Box
+            sx={{
+              position: "relative",
+              display: { xs: "none", md: "block" },
+              justifyContent: "center",
+              mr: "20px",
+            }}
+          >
+            <SearchBox {...{ setSearch, Search }} />
+            <SearchIcon
+              sx={{
+                color: "#FFF",
+                position: "absolute",
+                right: "5px",
+                top: "8px",
+              }}
+            />
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {!user ? (
+              <>
+                <Button
+                  sx={{
+                    color: "#FFF",
+                    bgcolor: "#0DAEE4",
+                    borderRadius: "20px",
+                    width: "90px",
+                    height: "fit-content",
+                    ":hover": {
+                      bgcolor: "#0DAEE",
+                    },
+                  }}
+                  onClick={() => {
+                    Navigat("/Login");
+                  }}
+                >
+                  Login
+                </Button>
+              </>
+            ) : (
+              <Box>
+                <Box
+                  ref={paperRef}
+                  sx={{
+                    position: "relative",
+                  }}
+                >
+                  <Avatar
+                    sx={{ bgcolor: red[500], mr: "10px", cursor: "pointer" }}
+                    aria-label="profile"
+                    onClick={() => {
+                      setShowMobileMenu(!ShowMobileMenu);
+                    }}
+                    src={userData?.data.profileimage}
+                  >
+                    {userData?.data.FirstName[0]}
+                  </Avatar>
+                  <Box>
+                    <ProfileMenu
+                      {...{
+                        ShowMobileMenu,
+                        setShowMobileMenu,
+                        userData,
+                        user,
+                        isLoading,
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Box>
+            )}
+            {!user && (
+              // mobile Menu
+              <Box>
+                <Box
+                  sx={{
+                    position: "relative",
+                    display: { xs: "block", md: "none" },
+                  }}
+                  ref={paperRef}
+                >
+                  <IconButton
+                    sx={{ display: { xs: "block", md: "none" } }}
+                    onClick={() => {
+                      setShowMobileMenu(!ShowMobileMenu);
+                    }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Box>
+                    <ProfileMenu
+                      {...{
+                        ShowMobileMenu,
+                        setShowMobileMenu,
+                        userData,
+                        user,
+                        isLoading,
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Box>
+            )}
+          </Box>
         </Box>
-      </AppBar>
-    </>
+      </Container>
+      {/* For Mobile Search */}
+      <Box
+        sx={{
+          position: "relative",
+          display: { xs: "flex", md: "none" },
+          justifyContent: "center",
+          mb: "10px",
+        }}
+      >
+        <SearchBox {...{ setSearch, Search }} />
+        <SearchIcon
+          sx={{
+            color: "#FFF",
+            position: "absolute",
+            right: "16%",
+            top: "8px",
+          }}
+        />
+      </Box>
+    </AppBar>
   );
 };
 

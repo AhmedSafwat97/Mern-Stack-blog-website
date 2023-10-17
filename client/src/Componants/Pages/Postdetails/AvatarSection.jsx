@@ -4,7 +4,7 @@ import { red } from "@mui/material/colors";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import MailLink from "../../MainLink";
@@ -23,7 +23,7 @@ const AvatarSection = ({data}) => {
   // Use the useQuery hook to fetch and manage the data
   const { data : Authordata } = useQuery(queryKey, fetchData);
 
-  console.log(Authordata);
+  // console.log(Authordata);
 
 const Navigate = useNavigate()
 

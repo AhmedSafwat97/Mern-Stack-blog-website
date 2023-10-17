@@ -33,9 +33,8 @@ const Login = () => {
     return axios.post(`${MailLink}/api/v1/auth/login`, Login);
   }, {
     onSuccess: (data) => {
-      console.log("Response from POST request:", data);
+      // console.log("Response from POST request:", data);
       const token = data.data.token
-      console.log(token);
 
       queryClient.invalidateQueries();
 

@@ -31,8 +31,6 @@ function App() {
   // Use the useQuery hook to fetch and manage the data
   const { data, isLoading } = useQuery(queryKey, fetchData);
 
-  console.log(data);
-
   return (
     <div
       className="App"
