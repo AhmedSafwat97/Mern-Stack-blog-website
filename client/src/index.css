@@ -5,6 +5,22 @@
   color : #fff
 }
 
+/* Customize the scrollbar track (the background) */
+::-webkit-scrollbar {
+  width: 12px; /* Set the width of the scrollbar */
+}
+
+/* Customize the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Change the color of the thumb */
+  border-radius: 6px; /* Add rounded corners to the thumb */
+}
+
+/* Customize the scrollbar track on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Change the color on hover */
+}
+
 
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
   color : #FFF !important ;
@@ -52,25 +68,6 @@
   color : #FFF !important ;
 }
 
-
 .css-19micn4-MuiButtonBase-root-MuiPaginationItem-root {
   color : #FFF !important
-}
-
-
-
-/* Customize the scrollbar track (the background) */
-::-webkit-scrollbar {
-  width: 12px; /* Set the width of the scrollbar */
-}
-
-/* Customize the scrollbar thumb (the draggable part) */
-::-webkit-scrollbar-thumb {
-  background: #888; /* Change the color of the thumb */
-  border-radius: 6px; /* Add rounded corners to the thumb */
-}
-
-/* Customize the scrollbar track on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Change the color on hover */
 }
