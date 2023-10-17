@@ -13,6 +13,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import MailLink from "../../MainLink";
 import ScrollToTop from "../../../ScrollToTop";
+import "../../../index.css"
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
