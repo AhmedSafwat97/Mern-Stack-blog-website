@@ -6,14 +6,20 @@ const PostSchema = new mongoose.Schema(
       type: String,
       minlength: [3, 'Too short Title name'],
       maxlength: [100, 'Too long Title name'],
+      // required: [true, 'title required'],
 
     },
     imageCover : {
         type: String,
+        // required: [true, 'image required'],
     } ,
     content : {
         type: String,
+        // required: [true, 'content required'],
         minlength: [3, 'Too short Title name'],
+        // maxlength: [1000, 'Too long Title name'],
+        // required: [true, 'content required'],
+
     } ,
     // A and B => shoping.com/a-and-b
     slug: {
@@ -23,6 +29,7 @@ const PostSchema = new mongoose.Schema(
     category : {
         type : mongoose.Schema.ObjectId ,
         ref : "Category",
+        // required : [true , "Post must belong to category"]
     } ,
     author: {
       type: mongoose.Schema.ObjectId,

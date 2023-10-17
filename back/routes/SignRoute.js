@@ -25,6 +25,8 @@ router.put("/:id", updateUserInfo);
 router.get("/author/:id", getAuthorById);
 
 
+
+
 router.route("/image/:id").post(uploadProfileImage, updateprofileimage);
 
 // to get nested routes
