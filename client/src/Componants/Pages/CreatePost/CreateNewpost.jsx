@@ -173,9 +173,10 @@ const [Loading, setLoading] = useState(false);
          </Box>
     
          <FormControl sx={{ m: "20px 0" }} fullWidth>
-           <InputLabel id="demo-simple-select-label">Category</InputLabel>
+           <InputLabel id="demo-simple-select-label" style={{color :" #FFF"}} >Category</InputLabel>
            <Select
              labelId="demo-simple-select-label"
+             style={{color :" #FFF"}}
              id="demo-simple-select"
              defaultValue={!id ? category : postData?.data.category}
              value={category}
@@ -187,8 +188,9 @@ const [Loading, setLoading] = useState(false);
                <MenuItem
                  key={cat._id}
                  value={cat._id}
+                 sx={{color : "black"}}
                  onClick={() => {
-                   setcategory(cat._id);
+                   setcategory(cat._id)
                   //  console.log(category);
                  }}
                >

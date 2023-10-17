@@ -106,3 +106,34 @@ exports.deletepost = asyncHandler(async (req, res) => {
     ? res.status(404).json({ msg: "there is no category for this id" })
     : res.status(205).send();
 });
+
+
+
+// @desc    Update specific post image
+// @route   PUT /api/v1/post/image/:id
+// @access  Private
+
+exports.updatepostimage = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const filename = req.file.filename;
+
+  // Construct the image URL
+
+  const imageUrl = `http://localhost:5000/uploads/${filename}`;
+
+
+  // Create an object to specify the update, in this case, the `profileimage` field
+  const update = { imageCover: imageUrl };
+
+  const post = await Post.findOneAndUpdate({ _id: id }, update, {
+    new: true, // Return the updated document
+  });
+
+  if (!post) {
+    res.status(404).json({ msg: "There is no posts for this id" });
+  } else {
+    res.status(200).json({ data: post });
+  }
+});
+
