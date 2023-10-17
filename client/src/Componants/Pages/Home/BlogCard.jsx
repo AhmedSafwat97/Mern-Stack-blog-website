@@ -129,8 +129,8 @@ export default function BlogCard() {
        count={Math.ceil(data.data.length / postsPerPage)}
        page={currentPage}
        onChange={handlePageChange}
-      
-       color="secondary" />
+       color="secondary"
+       />
       </Box>
     </Box>
   );

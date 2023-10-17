@@ -33,7 +33,14 @@ const customTheme = createTheme({
           },
         },
       },
+    }, MuiPaginationItem: {
+      styleOverrides: {
+        root: {
+          color: 'white', // Set the color to white for the page numbers
+        },
+      },
     },
+
   },
 });
 
