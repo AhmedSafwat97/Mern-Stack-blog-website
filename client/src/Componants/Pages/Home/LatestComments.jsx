@@ -61,12 +61,18 @@ const LatestComment = () => {
 
               <Box>
              <Box sx={{display : "flex"}}>
+             <Typography sx={{ fontSize: "10px", color: "gray" , mr : "10px" }}>
+                     {comment.user.FirstName}
+                   </Typography>
+
+
                    <Typography sx={{ fontSize: "10px", color: "gray" , mr : "10px" }}>
                      {comment.createdAt.slice(0, 10)}
                    </Typography>
                    <Typography sx={{ fontSize: "10px", color: "gray" }}>
                      {comment.createdAt.slice(14, 20)}
                    </Typography>
+
              </Box>
               </Box>
             </Box>

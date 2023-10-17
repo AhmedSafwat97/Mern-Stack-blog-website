@@ -154,7 +154,7 @@ const Editinfo = () => {
               label="First Name"
               placeholder="First Name"
               defaultValue={data?.data.FirstName}
-              sx={{ m: "10px 0", bgcolor: "#0F172A", width: "49%" }}
+              sx={{ m: "10px 0", bgcolor: "#0F172A", width: "49%"  , borderRadius : "15px"}}
               onChange={(e) => {
                 setFirstName(e.target.value);
               }}
@@ -165,7 +165,7 @@ const Editinfo = () => {
               label="Last Name"
               placeholder="Last Name"
               defaultValue={data?.data.LastName}
-              sx={{ m: "10px 0", bgcolor: "#0F172A", width: "49%" }}
+              sx={{ m: "10px 0", bgcolor: "#0F172A", width: "49%" , borderRadius : "15px" }}
               onChange={(e) => {
                 setLastName(e.target.value);
               }}
@@ -198,7 +198,7 @@ const Editinfo = () => {
               label="Email"
               placeholder="Post Content"
               defaultValue={data?.data.Email}
-              sx={{ m: "10px 0", bgcolor: "#0F172A" }}
+              sx={{ m: "10px 0", bgcolor: "#0F172A" , borderRadius : "15px" }}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -226,7 +226,7 @@ const Editinfo = () => {
               label="About"
               placeholder="Anout"
               defaultValue={data?.data.About}
-              sx={{ m: "10px 0", bgcolor: "#0F172A" }}
+              sx={{ m: "10px 0", bgcolor: "#0F172A" , borderRadius : "15px" }}
               onChange={(e) => {
                 setAbout(e.target.value);
               }}
@@ -254,7 +254,7 @@ const Editinfo = () => {
               label="Facebook"
               placeholder="Facebook"
               defaultValue={data?.data.FacebookLink}
-              sx={{ m: "10px 0", bgcolor: "#0F172A" }}
+              sx={{ m: "10px 0", bgcolor: "#0F172A" , borderRadius : "15px"}}
               onChange={(e) => {
                 setFacebookLink(e.target.value);
               }}
