@@ -41,7 +41,7 @@ const LatestComment = () => {
 
 
 
-      {data?.data.reverse().slice(-4)
+      {data?.data.reverse().slice(-3)
         .map((comment) => (
           <Box key={comment._id} sx={{cursor : "pointer"}}>
               <Typography
