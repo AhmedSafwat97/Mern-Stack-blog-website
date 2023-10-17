@@ -88,10 +88,14 @@ const SignUp = () => {
             alignItems: "center",
             justifyContent: "center",
             mb: "20px",
+            p : "20px"
           }}
         >
           <FormControl
-            sx={{ m: 1, width: "30ch", borderRadius: "10px" }}
+            sx={{ m: 1, width: "30ch", borderRadius: "10px",
+
+          
+          }}
             variant="filled"
           >
             <InputLabel sx={{ color: "#FFF" }}>First name</InputLabel>
@@ -104,7 +108,7 @@ const SignUp = () => {
           </FormControl>
 
           <FormControl
-            sx={{ m: 1, width: "30ch", borderRadius: "10px" }}
+            sx={{ m: 1, width: "30ch", borderRadius: "10px"  }}
             variant="filled"
           >
             <InputLabel sx={{ color: "#FFF" }}>Last name</InputLabel>
@@ -117,7 +121,8 @@ const SignUp = () => {
           </FormControl>
 
           <FormControl
-            sx={{ m: 1, width: "30ch", borderRadius: "10px" }}
+            sx={{ m: 1, width: "30ch", borderRadius: "10px", 
+          }}
             variant="filled"
           >
             <InputLabel sx={{ color: "#FFF" }}>Email</InputLabel>
@@ -130,7 +135,7 @@ const SignUp = () => {
           </FormControl>
 
           <FormControl
-            sx={{ m: 1, width: "30ch", borderRadius: "10px" }}
+            sx={{ m: 1, width: "30ch", borderRadius: "10px"}}
             variant="filled"
           >
             <InputLabel
