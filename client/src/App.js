@@ -15,7 +15,7 @@ import axios from "axios";
 import MailLink from "./Componants/MainLink";
 import { useQuery } from "@tanstack/react-query";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import Pin from "./Componants/Pin";
+// import Pin from "./Componants/Pin";
 
 function App() {
   const [Search, setSearch] = useState("");
@@ -95,7 +95,7 @@ function App() {
       {data && (
         <Router>
           <Navbar {...{ Search, setSearch }} />
-          <Pin/>
+          // <Pin/>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/Login" element={<Login />} />
