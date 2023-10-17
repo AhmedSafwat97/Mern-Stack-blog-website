@@ -222,7 +222,8 @@ const [Loading, setLoading] = useState(false);
              variant="contained"
              onClick={() => {
                if (title !== "" && content !== "" && category !== "" ) {
-               id ? updateposts() : submitposts();
+              //  id ? updateposts() : 
+               submitposts();
                setLoading(true)
                } else {
                 window.scrollTo(0, 0);
