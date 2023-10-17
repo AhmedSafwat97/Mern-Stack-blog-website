@@ -163,6 +163,9 @@ const [Loading, setLoading] = useState(false);
            onChange={(e) => {
             setTitle(e.target.value);
            }}
+           InputProps={{
+            style: { color: '#FFF' } // Set the text color to red
+          }}
          />
     
          <Box sx={{ display: "flex", m: "10px 0" }}>
@@ -206,6 +209,9 @@ const [Loading, setLoading] = useState(false);
            onChange={(e) => {
              setContent(e.target.value);
            }}
+           InputProps={{
+            style: { color: '#FFF' } // Set the text color to red
+          }}
          />
     
          <Box sx={{ display: "flex", justifyContent: "center", m: "15px 0" }}>

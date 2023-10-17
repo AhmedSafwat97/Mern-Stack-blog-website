@@ -213,6 +213,9 @@ const CommentSection = ({ id , user }) => {
               onChange={(e) => {
                 setComment(e.target.value);
               }}
+              InputProps={{
+                style: { color: '#FFF' } // Set the text color to red
+              }}
            />
            <Box sx={{ display: "flex", justifyContent: "center", m: "15px 0" }}>
              <Box sx={{ flexGrow: 1 }} />
