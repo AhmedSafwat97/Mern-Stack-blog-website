@@ -19,8 +19,8 @@ const Categories = () => {
 
   const Navigate = useNavigate();
 
-  const queryKey = ["postscategory"];
-  const QueryKey = ["category"];
+  const queryKey = ["postscategory" , id];
+  const QueryKey = ["category" , id];
 
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;

@@ -84,7 +84,7 @@ const SearchResult = ({setSearch , Search}) => {
                       <Avatar
                         sx={{ bgcolor: red[500], mr: "10px" }}
                         aria-label="Author"
-                        src={posts.author.profileimage}
+                        src={`${MailLink}/${posts.author.profileimage}`}
                       >
                         {posts.author.FirstName}
                       </Avatar>
