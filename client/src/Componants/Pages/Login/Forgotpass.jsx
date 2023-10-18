@@ -14,40 +14,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import MailLink from "../../MainLink";
 import ScrollToTop from "../../../ScrollToTop";
 
-const Login = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [Email, setEmail] = useState("");
-  const [password, setpassword] = useState("");
+const Forgotpass = () => {
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const Navigat = useNavigate()
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const Navigat = useNavigate();
-
-  const queryClient = useQueryClient();
-
-  const submitlogin = useMutation(
-    (Login) => {
-      return axios.post(`${MailLink}/api/v1/auth/login`, Login);
-    },
-    {
-      onSuccess: (data) => {
-        // console.log("Response from POST request:", data);
-        const token = data.data.token;
-
-        queryClient.invalidateQueries();
-
-        if (token) {
-          localStorage.setItem("token", token);
-        }
-
-        Navigat("/");
-      },
-    }
-  );
 
   return (
     <Box>
@@ -62,18 +32,14 @@ const Login = () => {
       >
         <Box sx={{ m: "30px 0" }}>
           <Typography variant="h4" sx={{ color: "#0DBADE" }}>
-            Welcome back !
+            Forgot Password
           </Typography>
         </Box>
-
-        {submitlogin.isError && (
-          <Typography sx={{ mb: "10px" }}>invalid email or password</Typography>
-        )}
 
         <Box
           sx={{
             width: "300px",
-            height: "300px",
+            height: "200px",
             borderRadius: "15px",
             bgcolor: "#222F43",
             display: "flex",
@@ -94,52 +60,9 @@ const Login = () => {
           >
             <InputLabel sx={{ color: "#FFF" }}>Email</InputLabel>
             <OutlinedInput
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
               label="Email"
             />
           </FormControl>
-
-          <FormControl
-            sx={{ m: 1, width: "30ch", borderRadius: "10px"  }}
-            variant="filled"
-          >
-            <InputLabel
-              sx={{ color: "#FFF" }}
-              htmlFor="outlined-adornment-password"
-            >
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              onChange={(e) => {
-                setpassword(e.target.value);
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-
-          <Typography 
-          onClick={() => {
-            Navigat("/forgotpass")
-          }}
-          sx={{ color: "#0DBADE", m: "10px 0", cursor: "pointer" }}>
-            Forgot Password
-          </Typography>
 
           <Button
             sx={{
@@ -153,11 +76,8 @@ const Login = () => {
                 color: "#FFF",
               },
             }}
-            onClick={() => {
-              submitlogin.mutate({ Email: Email, password: password });
-            }}
           >
-            {submitlogin.isLoading ? <CircularProgress /> : "Log Me In"}
+            Send Code
           </Button>
 
           <Box
@@ -187,4 +107,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Forgotpass;

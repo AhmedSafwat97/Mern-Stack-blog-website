@@ -16,6 +16,7 @@ import MailLink from "./Componants/MainLink";
 import { useQuery } from "@tanstack/react-query";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import EditPosts from "./Componants/Pages/EditPosts/EditPosts";
+import Forgotpass from "./Componants/Pages/Login/Forgotpass";
 // import Pin from "./Componants/Pin";
 
 function App() {
@@ -101,7 +102,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/SignUp" element={<Signup />} />
-            {/* <Route path="/forgotpass" element={<Profile/>} /> */}
+            <Route path="/forgotpass" element={<Forgotpass/>} />
             <Route path="/category/:id" element={<Categories />} />
             <Route path="/postDetails/:id" element={<PostDetails />} />
             <Route path="/Createnewpost" element={<CreateNewpost />} />
