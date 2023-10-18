@@ -18,7 +18,7 @@ const Social = () => {
     >
       <a href="https://ahmedsafwat-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer" >Created by AhmedSafwat</a>
 
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" , mt : {xs : "10px" , md : "0"} }}>
         <Box sx={{ mr: "15px", display: "flex", alignItems: "center" }}>
           <a href="https://www.facebook.com/a7med.sfwat28/" target="_blank" rel="noopener noreferrer">
             <FacebookOutlinedIcon />
