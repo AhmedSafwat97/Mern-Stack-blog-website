@@ -1,5 +1,4 @@
-const MailLink = "http://localhost:5000"
+const MailLink = "https://social-media-blog-n136.onrender.com"
 
 export default MailLink
 
-// https://social-media-blog-n136.onrender.com
