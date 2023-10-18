@@ -30,12 +30,12 @@ const Navbar = ({ Search, setSearch }) => {
     user = jwtDecode(token);
   }
 
-  const queryKey = ["usermenudata"];
+  const queryKey = ["usermenudata" , user];
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
     if (user) {
-      const response = await axios.get(`${MailLink}/api/v1/auth/${user?.userId}`);
+      const response = await axios.get(`${MailLink}/api/v1/auth/${user.userId}`);
       return response.data;
     } else {
       return null
