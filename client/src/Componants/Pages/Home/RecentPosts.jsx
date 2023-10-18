@@ -79,7 +79,7 @@ const RecentPosts = () => {
               sx={{ borderRadius: "15px" }}
               component="img"
               height="170"
-              image={posts.imageCover}
+              image={`${MailLink}/${posts.imageCover}`}
               alt="Post Cover"
             />
     
@@ -111,7 +111,7 @@ const RecentPosts = () => {
                 <Avatar
                   sx={{ bgcolor: red[500], mr: "10px" }}
                   aria-label="profile"
-                  src={posts.author.profileimage}
+                  src={`${MailLink}/${posts.author.profileimage}`}
                 >
                   {posts.author.FirstName[0]}
                 </Avatar>

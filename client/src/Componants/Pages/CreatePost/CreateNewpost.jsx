@@ -14,7 +14,7 @@ import "react-dropzone-uploader/dist/styles.css"; // Import the styles
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import FileUpload from "./FileUpload ";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MailLink from "../../MainLink";
 import jwtDecode from "jwt-decode";
 import ScrollToTop from "../../../ScrollToTop";
@@ -26,18 +26,10 @@ const CreateNewpost = () => {
   const [content, setContent] = useState("");
   const [category, setcategory] = useState("");
   const [Errormessage, setErrormessage] = useState(null);
-const [Loading, setLoading] = useState(false);
-  const {id} = useParams()
-  // console.log(id);
+  const [Loading, setLoading] = useState(false);
 
   const Navigate = useNavigate();
   const queryKey = ["repoData"];
-
-  const QueryKey = ["postdata"];
-
-  // const QueryKeypost = ["updatepostdata"];
-
-
 
   let user;
 
@@ -46,33 +38,7 @@ const [Loading, setLoading] = useState(false);
   if (token) {
     user = jwtDecode(token);
   }
-
-
-
-  const updateposts = async () => {
-    try {
-      const response = await axios.put(`${MailLink}/api/v1/post/${id}`, {
-        title: title,
-        content: content ,
-      });
-      Navigate("/")
-      // console.log("Response from PUT request:", response.data);
-    } catch (error) {
-      console.error("Error updating:", error);
-    }
-  };
-
   
-  
-  const fetchPostData = async () => {
-    const response = await axios.get(`${MailLink}/api/v1/post/${id}`); 
-    return response.data;
-  };
-
-  // Use the useQuery hook to fetch and manage the data
-  const { data : postData  } = useQuery(QueryKey, fetchPostData);
-
-
   // Define a function to fetch the data from your API
   const fetchData = async () => {
     const response = await axios.get(`${MailLink}/api/v1/categories`); // Replace with your API endpoint
@@ -118,7 +84,7 @@ const [Loading, setLoading] = useState(false);
           },
         }
       );
-      // console.log("Response from POST request:", response.data);
+      console.log("Response from POST request:", response.data);
       Navigate("/");
     } catch (error) {
       // console.error("Error uploading image:", error);
@@ -140,15 +106,10 @@ const [Loading, setLoading] = useState(false);
        }}
      >
        <Box sx={{ m: "30px 0" }}>
-        {id ? (
-           <Typography variant="h4" sx={{ color: "#0DBADE" }}>
-           Edit your Post
-         </Typography>
-        ) : (
+
           <Typography variant="h4" sx={{ color: "#0DBADE" }}>
            Create New Post
          </Typography>
-        ) }
        </Box>
        
        <Typography>{Errormessage}</Typography>
@@ -160,7 +121,7 @@ const [Loading, setLoading] = useState(false);
            multiline
            placeholder="Title"
            sx={{ m: "10px 0" }}
-           defaultValue={!id ? title : postData?.data.title}
+           defaultValue={title}
            onChange={(e) => {
             setTitle(e.target.value);
            }}
@@ -170,7 +131,7 @@ const [Loading, setLoading] = useState(false);
          />
     
          <Box sx={{ display: "flex", m: "10px 0" }}>
-           <FileUpload {...{ imageCover, setimage ,postData , id}} />
+           <FileUpload {...{ imageCover, setimage }} />
          </Box>
     
          <FormControl sx={{ m: "20px 0" }} fullWidth>
@@ -179,7 +140,7 @@ const [Loading, setLoading] = useState(false);
              labelId="demo-simple-select-label"
              style={{color :" #FFF"}}
              id="demo-simple-select"
-             defaultValue={!id ? category : postData?.data.category}
+             defaultValue={category}
              value={category}
              onChange={(e) => {
                setcategory(e.target.value);
@@ -208,7 +169,7 @@ const [Loading, setLoading] = useState(false);
            placeholder="Post Content"
            rows={8}
            sx={{ m: "10px 0" }}
-           defaultValue={!id ? content : postData?.data.content}
+           defaultValue={content}
            onChange={(e) => {
              setContent(e.target.value);
            }}
@@ -223,7 +184,6 @@ const [Loading, setLoading] = useState(false);
              variant="contained"
              onClick={() => {
                if (title !== "" && content !== "" && category !== "" ) {
-              //  id ? updateposts() : 
                submitposts();
                setLoading(true)
                } else {
@@ -233,7 +193,7 @@ const [Loading, setLoading] = useState(false);
                }
              }}
            >
-             {Loading ? <CircularProgress sx={{mx : "65px"}}/> : "Send"} 
+             {Loading ? <CircularProgress/> : "Send"} 
            </Button>
          </Box>
        </Box>

@@ -15,15 +15,12 @@ const { formatDistanceToNow } = require("date-fns");
 exports.createpost = asyncHandler(async (req, res) => {
   // to create post from this category (Nested route)
   if (!req.body.category) req.body.category = req.params.categoryId;
-  // if (!req.body.author) req.body.author = req.user._id;
-  // Assuming multer middleware is used to handle file uploads,
-  // req.file should contain the uploaded file data
-  // Check if req.file exists and has the filename property
+
   if (req.file && req.file.filename) {
     const filename = req.file.filename;
 
     // Construct the image URL
-    const imageUrl = `https://social-media-blog-n136.onrender.com/uploads/${filename}`;
+    const imageUrl = `uploads/${filename}`;
 
     // Set the imageCover field to the imageUrl
     req.body.imageCover = imageUrl;
@@ -75,11 +72,24 @@ exports.getpost = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update specific category
-// @route   PUT /api/v1/categories/:id
+// @route   PUT /api/v1/post/:id
 // @access  Private
 
 exports.updatepost = asyncHandler(async (req, res) => {
   const { id } = req.params;
+
+  // to create post from this category (Nested route)
+  if (!req.body.category) req.body.category = req.params.categoryId;
+
+  if (req.file && req.file.filename) {
+    const filename = req.file.filename;
+
+    // Construct the image URL
+    const imageUrl = `uploads/${filename}`;
+
+    // Set the imageCover field to the imageUrl
+    req.body.imageCover = imageUrl;
+  }
 
   req.body.slug = slugify(req.body.title);
 
@@ -92,6 +102,35 @@ exports.updatepost = asyncHandler(async (req, res) => {
   !post
     ? res.status(404).json({ msg: "there is no category for this id" })
     : res.status(200).json({ data: post });
+});
+
+
+// // @desc    Update specific user
+// // @route   PUT /api/v1/auth/:id
+// // @access  Private
+
+exports.updatepostimage = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const filename = req.file.filename;
+
+  // Construct the image URL
+
+  const imageUrl = `uploads/${filename}`;
+
+
+  // Create an object to specify the update, in this case, the `profileimage` field
+  const update = { imageCover : imageUrl };
+
+  const post = await Post.findOneAndUpdate({ _id: id }, update, {
+    new: true, 
+  });
+
+  if (!post) {
+    res.status(404).json({ msg: "There is no post for this id" });
+  } else {
+    res.status(200).json({ data: post });
+  }
 });
 
 // @desc    Delete specific category

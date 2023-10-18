@@ -9,7 +9,6 @@ import {
 import React, { useRef } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
@@ -162,7 +161,7 @@ export default function Profileimage({id , data , queryKey}) {
                 >
                  {data?.data.profileimage ? (
                    <img
-                   src={data?.data.profileimage}
+                   src={`${MailLink}/${data?.data.profileimage}`}
                    alt="Selected"
                    style={{ width: "270px", height: "270px", borderRadius: "50%" , zIndex : "10" }}
                  />

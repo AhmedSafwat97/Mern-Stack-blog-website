@@ -37,7 +37,6 @@ const CommentSection = ({ id , user }) => {
 
 
   const [Comment, setComment] = useState("");
-  const [message, setmessage] = useState("");
 
   const createdAt = new Date(); // Create a Date object for the current date and time
   // Convert the Date object to a formatted string (YYYY-MM-DD)
@@ -48,7 +47,7 @@ const CommentSection = ({ id , user }) => {
 
   const submitcomment = async () => {
     try {
-      const response = await axios.post(`${MailLink}/api/v1/comments`, {
+      await axios.post(`${MailLink}/api/v1/comments`, {
         commentText: Comment,
         date: date,
         user: user.userId,
@@ -63,7 +62,6 @@ const CommentSection = ({ id , user }) => {
       setComment("");
     } catch (error) {
       // console.error("Error", error);
-      setmessage(error);
     }
   };
 
@@ -134,7 +132,7 @@ const CommentSection = ({ id , user }) => {
             <Avatar
               sx={{ bgcolor: red[500], mr: "10px" }}
               aria-label="Author"
-              src={comments.user.profileimage}
+              src={`${MailLink}/${comments.user.profileimage}`}
             >
               {comments.user.FirstName[0]}
             </Avatar>

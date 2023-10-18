@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const dbConnection = require("./config/database");
 const path = require("path");
 const User = require("./models/UserModel");
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
@@ -30,6 +31,17 @@ app.use("/api/v1/comments", CommentsRoute);
 
 // Define a route to serve static files (images)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
+app.get('/get-image', (req, res) => {
+  const imagePath = path.join(__dirname, 'uploads', 'your-image.jpg');
+  res.sendFile(imagePath);
+});
+
+
+
+
+
 // Auth Route
 app.use("/api/v1/auth", SignRoute);
 

@@ -58,7 +58,7 @@ const Editinfo = () => {
         LinkedinLink: LinkedinLink,
       });
 
-      console.log("Response from POST request:", response.data);
+      console.log("Response:", response.data);
 
       // After a successful comment submission, invalidate the comments query
       queryClient.invalidateQueries(queryKey);
@@ -109,7 +109,7 @@ const Editinfo = () => {
             height: "139px",
           }}
           aria-label="profile"
-          src={data?.data.profileimage}
+          src={`${MailLink}/${data?.data.profileimage}`}
         >
           {data?.data.FirstName[0]}
         </Avatar>

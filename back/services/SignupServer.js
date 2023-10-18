@@ -1,4 +1,3 @@
-
 const crypto = require('crypto');
 
 // const jwt = require('jsonwebtoken');
@@ -118,7 +117,7 @@ exports.updateUserInfo = asyncHandler(async (req, res) => {
     const filename = req.file.filename;
 
     // Construct the image URL
-    const imageUrl = `https://social-media-blog-n136.onrender.com/uploads/${filename}`;
+    const imageUrl = `uploads/${filename}`;
 
     // Set the imageCover field to the imageUrl
     req.body.profileimage = imageUrl;
@@ -151,7 +150,7 @@ exports.updateprofileimage = asyncHandler(async (req, res) => {
 
   // Construct the image URL
 
-  const imageUrl = `https://social-media-blog-n136.onrender.com/uploads/${filename}`;
+  const imageUrl = `uploads/${filename}`;
 
 
   // Create an object to specify the update, in this case, the `profileimage` field
@@ -167,7 +166,3 @@ exports.updateprofileimage = asyncHandler(async (req, res) => {
     res.status(200).json({ data: user });
   }
 });
-
-
-
-

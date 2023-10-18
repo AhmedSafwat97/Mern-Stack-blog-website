@@ -107,7 +107,7 @@ const PostDetails = () => {
         <Box sx={{ width: {xs : "90%" , md : "50%"}, height: "300px", borderRadius: "15px" }}>
           <img
             style={{ width: "100%", height: "100%", borderRadius: "15px" }}
-            src={data?.data.imageCover}
+            src={`${MailLink}/${data?.data.imageCover}`}
     
             alt="cover"
           />

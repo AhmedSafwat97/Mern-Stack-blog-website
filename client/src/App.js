@@ -15,6 +15,7 @@ import axios from "axios";
 import MailLink from "./Componants/MainLink";
 import { useQuery } from "@tanstack/react-query";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import EditPosts from "./Componants/Pages/EditPosts/EditPosts";
 // import Pin from "./Componants/Pin";
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
-    const response = await axios.get(`${MailLink}/api/v1/post?page=1&limit=20`); // Replace with your API endpoint
+    const response = await axios.get(`${MailLink}/api/v1/post`); // Replace with your API endpoint
     return response.data;
   };
 
@@ -104,7 +105,7 @@ function App() {
             <Route path="/category/:id" element={<Categories />} />
             <Route path="/postDetails/:id" element={<PostDetails />} />
             <Route path="/Createnewpost" element={<CreateNewpost />} />
-            <Route path="/editpost/:id" element={<CreateNewpost />} />
+            <Route path="/editpost/:id" element={<EditPosts />} />
             <Route path="/Profile/:id" element={<Profile />} />
             <Route path="/editprofile/:id" element={<Editinfo />} />
             <Route

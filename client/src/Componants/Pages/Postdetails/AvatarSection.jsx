@@ -42,7 +42,7 @@ const Navigate = useNavigate()
         <Avatar
           sx={{cursor : "pointer" ,width: "60px", height: "60px", bgcolor: red[500], mr: "10px" }}
           aria-label="profile"
-        src={Authordata?.data.profileimage}
+        src={`${MailLink}/${Authordata?.data.profileimage}`}
         onClick={() => {
           Navigate(`/Profile/${Authordata?.data._id}`)
         }}

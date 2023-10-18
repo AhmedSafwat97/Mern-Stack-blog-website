@@ -64,7 +64,7 @@ export default function ProfileCard({id , user}) {
             sx={{ borderRadius: "15px" }}
             component="img"
             height="170"
-            image={posts.imageCover}
+            image={`${MailLink}/${posts.imageCover}`}
             alt="image"
           />
 
@@ -93,7 +93,7 @@ export default function ProfileCard({id , user}) {
               <Avatar
                 sx={{ bgcolor: red[500], mr: "10px" }}
                 aria-label="image"
-                src={posts.author.profileimage}
+                src={`${MailLink}/${posts.author.profileimage}`}
               >
                 {posts.author.FirstName[0]}
               </Avatar>

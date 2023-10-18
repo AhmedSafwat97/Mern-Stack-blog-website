@@ -54,7 +54,7 @@ const LatestComment = () => {
               <Avatar
                 sx={{ bgcolor: red[500], mr: "10px" }}
                 aria-label="Author"
-                src={comment.user.profileimage}
+                src={`${MailLink}/${comment.user.profileimage}`}
               >
                 {comment.user.FirstName[0]}
               </Avatar>

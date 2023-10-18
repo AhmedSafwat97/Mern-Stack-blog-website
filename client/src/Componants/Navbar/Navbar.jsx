@@ -153,7 +153,7 @@ const Navbar = ({ Search, setSearch }) => {
                     onClick={() => {
                       setShowMobileMenu(!ShowMobileMenu);
                     }}
-                    src={userData?.data.profileimage}
+                    src={`${MailLink}/${userData?.data.profileimage}`}
                   >
                     {userData?.data.FirstName[0]}
                   </Avatar>

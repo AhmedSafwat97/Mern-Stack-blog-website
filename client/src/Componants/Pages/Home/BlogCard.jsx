@@ -64,7 +64,7 @@ export default function BlogCard() {
             sx={{ borderRadius: "15px" }}
             component="img"
             height="170"
-            image={posts.imageCover}
+            image={`${MailLink}/${posts.imageCover}`}
             alt="Post Cover"
             onClick={() => {
               Navigate(`/postDetails/${posts._id}`);
@@ -100,7 +100,8 @@ export default function BlogCard() {
               <Avatar
                 sx={{ bgcolor: red[500], mr: "10px" }}
                 aria-label="Author"
-                src={posts.author.profileimage}
+                src={`${MailLink}/${posts.author.profileimage}`}
+                
               >
                 {posts.author.FirstName[0]}
               </Avatar>

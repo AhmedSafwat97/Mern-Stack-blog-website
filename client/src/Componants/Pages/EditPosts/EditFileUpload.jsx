@@ -1,8 +1,9 @@
 import { Box , Typography } from "@mui/material";
 import React, { useRef } from "react";
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import MailLink from "../../MainLink";
 
-const FileUpload = ({imageCover, setimage  }) => {
+const EditFileUpload = ({imageCover, setimage , postData , id }) => {
   const fileInputRef = useRef(null);
 
   const handleDrop = (e) => {
@@ -45,12 +46,18 @@ const FileUpload = ({imageCover, setimage  }) => {
            />
         ) : (
           <Box sx={{border : "2px solid #0DBADE" , height : "100%" , display : "flex" , alignItems : "center" , justifyContent : "center"}}>
-           <Box>
-           <Typography variant="h6">
+          {id ? (
+
+          <>
+            <img  style={{maxWidth: "100%", maxHeight: "100%"}} src={`${MailLink}/${postData?.data.imageCover}`}  alt="" />
+          </>
+
+          ) : (<Box>
+             <Typography variant="h6">
                Drag &amp; Drop and image or click here to select one
              </Typography>
              <DriveFolderUploadIcon sx={{fontSize : "50px"}}/>
-           </Box>
+           </Box>)}
           </Box>
         )}
       </div>
@@ -70,4 +77,4 @@ const FileUpload = ({imageCover, setimage  }) => {
   );
 };
 
-export default FileUpload;
+export default EditFileUpload;

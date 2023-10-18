@@ -89,7 +89,7 @@ const Profile = () => {
               width: "130px",
               height: "130px",
             }}
-            src={data?.data.profileimage}
+            src={`${MailLink}/${data.data.profileimage}`}
             aria-label="profile"
           >
             {data?.data.FirstName[0]}
