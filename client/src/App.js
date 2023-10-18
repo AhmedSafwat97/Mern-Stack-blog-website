@@ -25,7 +25,7 @@ function App() {
 
   // Define a function to fetch the data from your API
   const fetchData = async () => {
-    const response = await axios.get(`${MailLink}/api/v1/categories`); // Replace with your API endpoint
+    const response = await axios.get(`${MailLink}/api/v1/post`); // Replace with your API endpoint
     return response.data;
   };
 
