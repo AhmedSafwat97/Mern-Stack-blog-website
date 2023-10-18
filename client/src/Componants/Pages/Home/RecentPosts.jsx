@@ -94,7 +94,7 @@ const RecentPosts = () => {
             <Box>
               <Typography
                 variant="h6"
-                sx={{ fontSize: "18px", fontWeight: "600" }}
+                sx={{ fontSize: "18px", fontWeight: "600" , minHeight : "65px" }}
               >
                 {posts.title}
               </Typography>
