@@ -68,28 +68,33 @@ function App() {
         </Box>
       )}
 
+      
+
 
 {isError && (
-        <Box
-          sx={{
-            maxWidth: "1536px",
-            height: "100vh",
-            backgroundColor: "#0F172A",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-         <Box>
-           <Typography
-              variant="h3"
-              className="logo"
-              sx={{ fontSize: "25px", cursor: "pointer" }}
-            >
-              There is an Error!
-            </Typography>
-         </Box>
+       <Box
+       sx={{
+         maxWidth: "1536px",
+         height: "100vh",
+         backgroundColor: "#0F172A",
+         display: "flex",
+         justifyContent: "center",
+         alignItems: "center",
+       }}
+     >
+      <Box>
+        <Box sx={{ width : "100%" , display : "flex" , justifyContent : "center" }}>
+         <CircularProgress />
         </Box>
+        <Typography
+           variant="h3"
+           className="logo"
+           sx={{ fontSize: "30px", fontWeight: "800", cursor: "pointer" }}
+         >
+           WriteWave
+         </Typography>
+      </Box>
+     </Box>
       )}
 
 
