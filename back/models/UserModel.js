@@ -22,20 +22,23 @@ const userSchema = new mongoose.Schema({
       minlength: [6, 'Too short password'],
       required: [true, 'password required'],
     },
-    profileimage: {
-      type : "String"
-    },
     passwordChangedAt: Date,
     passwordResetCode: String,
     passwordResetExpires: Date,
     passwordResetVerified: Boolean,
-    FirstName: String,
-    LastName: String,
-    FacebookLink: String,
-    InstagramLink: String,
-    LinkedinLink: String,
-    About: String,
-
+    Name: {
+      type: String,
+      minlength: [3, 'Too short Name'],
+      max: [100, 'Too long Name'],
+      required: [true, 'Name is required'],
+    },
+    Address: {
+      type: String,
+      required: [true, 'Address is required'],
+    },
+    Phone: {
+      type: String,
+      required: [true, 'Phone number is required'],},
 
     // verificationCode : String,
   } , { timestamps: true });

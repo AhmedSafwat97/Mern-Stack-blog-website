@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
   getCategories,
-  getcategory ,
+  getCategory ,
   createCategory,
   updateCategory ,
   deleteCategory
@@ -10,13 +10,13 @@ const {
 
 const router = express.Router();
 
-const postsRoutes = require("./postRoute.js")
+const ProductRoutes = require("./ProductRoute.js")
 
 router.route('/').get(getCategories).post(createCategory);
-router.route('/:id').get(getcategory).put(updateCategory).delete(deleteCategory)
+router.route('/:id').get(getCategory).put(updateCategory).delete(deleteCategory)
 
 // to get nested routes
-router.use('/:categoryId/posts' , postsRoutes)
+router.use('/:categoryId/Products' , ProductRoutes)
 
 
 module.exports = router;

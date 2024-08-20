@@ -1,26 +1,20 @@
 const mongoose = require('mongoose');
-// 1- Create Schema
+
+// Define the schema for Category
 const categorySchema = new mongoose.Schema(
   {
-    name: {
+    Name: {
       type: String,
-      required: [true, 'Category required'],
-      unique: [true, 'Category must be unique'],
-      minlength: [3, 'Too short category name'],
-      maxlength: [32, 'Too long category name'],
-    }, 
-    decription : String ,
-    // A and B => shoping.com/a-and-b
-    slug: {
-      type: String,
-      lowercase: true,
+      required: [true, 'Category name is required'],
+      unique: true, // Ensure uniqueness if needed
     },
+    Description: String,
     image: String,
   },
-  { timestamps: true } // to get the time the the category created in 
+  { timestamps: true } // Automatically add createdAt and updatedAt timestamps
 );
 
-// 2- Create model
+// Create the model for Category
 const CategoryModel = mongoose.model('Category', categorySchema);
 
 module.exports = CategoryModel;
