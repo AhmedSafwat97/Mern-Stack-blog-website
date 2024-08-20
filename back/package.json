@@ -1,9 +1,10 @@
 {
-  "name": "blogs-backend",
+  "name": "electronics-backend",
   "version": "1.0.0",
-  "description": "Social Maedia blogs website",
+  "description": "Electronics E=commerce",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "build": "npm i"
   },
@@ -29,6 +30,6 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.1.4"
   }
 }

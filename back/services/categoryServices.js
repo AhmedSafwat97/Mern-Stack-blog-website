@@ -4,17 +4,39 @@ const asyncHandler = require("express-async-handler");
 
 const Category = require("../models/categoryModel");
 
+const Product = require('../models/ProductModel');
+
+
 // @desc    Create category
 // @route   POST  /api/v1/categories
 // @access  Private
 // asyncHandler or try and catch or then catch
 exports.createCategory = asyncHandler(async (req, res) => {
+  try {
+    const { Name, Description, image } = req.body;
 
-  req.body.slug = slugify(req.body.name);
+    // Check if the Name is provided
+    if (!Name) {
+      return res.status(400).json({ error: 'Category name is required' });
+    }
 
-  const category = await Category.create(req.body);
-  res.status(201).json({ data: category });
-  
+    // Create the Category
+    const category = await Category.create({
+      Name,
+      Description,
+      image,
+    });
+
+    res.status(201).json({ data: category, message: 'Category created successfully' });
+  } catch (error) {
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Category name must be unique', details: error.message });
+    }
+
+    console.error('Error creating category:', error);
+    res.status(400).json({ error: 'Failed to create category', details: error.message });
+  }
 });
 
 // @desc    Get list of categories
@@ -26,8 +48,8 @@ exports.getCategories = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 6;
   const skip = (page - 1) * limit;
-  const cateories = await Category.find({}).skip(skip).limit(limit);
-  res.status(200).json({ results: cateories.length, page, data: cateories });
+  const categories = await Category.find({}).skip(skip).limit(limit);
+  res.status(200).json({ results: categories.length, page, data: categories });
 });
 
 
@@ -35,16 +57,28 @@ exports.getCategories = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/categories/:id
 // @access  Public
 
-exports.getcategory = asyncHandler(async (req, res) => {
+exports.getCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
+  // Find the category by ID
   const category = await Category.findById(id);
 
-  !category
-    ? res.status(404).json({ msg: "there is no category for this id" })
-    : res.status(200).json({ data: category });
-});
+  // If the category does not exist, return a 404 response
+  if (!category) {
+    return res.status(404).json({ msg: "There is no category with this ID" });
+  }
 
+  // Find all products that belong to this category
+  const products = await Product.find({ category: category.Name });
+
+  // Send the category data along with the products
+  res.status(200).json({
+    data: {
+      CategoryData : category,
+      products
+    }
+  });
+});
 
 // @desc    Update specific category
 // @route   PUT /api/v1/categories/:id
@@ -67,9 +101,9 @@ exports.updateCategory = asyncHandler(async (req, res) => {
 });
 
 
-// @desc    Delete specific category
-// @route   DELETE /api/v1/categories/:id
-// @access  Private
+// // @desc    Delete specific category
+// // @route   DELETE /api/v1/categories/:id
+// // @access  Private
 
 exports.deleteCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;

@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-
+const jwt = require('jsonwebtoken');
 // const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
@@ -29,8 +29,7 @@ exports.Signup = asyncHandler(async (req, res, next) => {
     const userObject = { 
       userId : user._id ,
       email : user.Email ,
-      firstname : user.FirstName ,
-      lastname : user.LastName 
+      Name : user.Name 
     }
     // Generate a token for the new user
     const token = createToken(userObject);
@@ -61,11 +60,10 @@ exports.login = asyncHandler(async (req, res, next) => {
       }
 
       const userObject = {
+        sub : "Login Token",
         userId : user._id ,
         email : user.Email ,
-        firstname : user.FirstName ,
-        lastname : user.LastName ,
-        image : user.profileimage
+        Name : user.Name
       }
 
     // 3) generate token
@@ -79,19 +77,33 @@ exports.login = asyncHandler(async (req, res, next) => {
   });
 
 // @desc   get specific user
-// @route   GET /api/v1/auth/:id
+// @route   GET /api/v1/LoginUser
 // @access  Private
 
+exports.getUserData = asyncHandler(async (req, res) => {
+  const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
-  exports.getuserById = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    
-    const user = await User.findById(id);
-  
-    !user
-      ? res.status(404).json({ msg: "there is no user for this id" })
-      : res.status(200).json({ data: user });
-  });
+  if (!token) {
+      return res.status(401).json({ msg: 'Not authorized, token failed' });
+  }
+
+  try {
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Find user by ID in token
+      const user = await User.findById(decoded.userId);
+
+      if (!user) {
+          return res.status(404).json({ msg: 'No user found for this token' });
+      }
+
+      // Respond with user data
+      res.status(200).json({ data: user });
+  } catch (error) {
+      res.status(401).json({ msg: 'Not authorized, token failed', details: error.message });
+  }
+});
 
 
   exports.getAuthorById = asyncHandler(async (req, res) => {
@@ -139,30 +151,56 @@ exports.updateUserInfo = asyncHandler(async (req, res) => {
 
 });
 
-// @desc    Update specific user
-// @route   PUT /api/v1/auth/:id
-// @access  Private
-
-exports.updateprofileimage = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-
-  const filename = req.file.filename;
-
-  // Construct the image URL
-
-  const imageUrl = `uploads/${filename}`;
 
 
-  // Create an object to specify the update, in this case, the `profileimage` field
-  const update = { profileimage: imageUrl };
+// const jwt = require('jsonwebtoken');
+// const User = require('../models/UserModel');  // Assuming you have a User model
+// const Cart = require('../models/CartModel');  // Assuming you have a Cart model
 
-  const user = await User.findOneAndUpdate({ _id: id }, update, {
-    new: true, // Return the updated document
-  });
+// const getCartForUser = async (req, res, next) => {
+//   let token;
 
-  if (!user) {
-    res.status(404).json({ msg: "There is no user for this id" });
-  } else {
-    res.status(200).json({ data: user });
-  }
-});
+//   // Check if the Authorization header exists and starts with 'Bearer '
+//   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+//     try {
+//       // Get the token from the header
+//       token = req.headers.authorization.split(' ')[1];
+
+//       // Verify the token and check expiration
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+//       // Find the user by ID from the token's payload
+//       const user = await User.findById(decoded.id);
+
+//       // If user does not exist
+//       if (!user) {
+//         return res.status(401).json({ message: 'User not found' });
+//       }
+
+//       // Find the cart associated with the user
+//       const cart = await Cart.findOne({ user: user._id });
+
+//       // If cart does not exist
+//       if (!cart) {
+//         return res.status(404).json({ message: 'No cart found for this user' });
+//       }
+
+//       // Respond with the cart
+//       res.status(200).json({ data: cart });
+//     } catch (error) {
+//       // Handle specific error for expired token
+//       if (error.name === 'TokenExpiredError') {
+//         return res.status(401).json({ message: 'Token has expired, please log in again' });
+//       }
+
+//       // Handle other errors (e.g., invalid token)
+//       console.error('Error verifying token or fetching cart:', error);
+//       return res.status(401).json({ message: 'Not authorized, token failed or cart not found' });
+//     }
+//   } else {
+//     // No token was provided
+//     res.status(401).json({ message: 'Not authorized, no token' });
+//   }
+// };
+
+// module.exports = getCartForUser;
