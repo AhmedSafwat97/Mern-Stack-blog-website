@@ -5,10 +5,9 @@ const CategoriesSec = () => {
 
 const catarray = [
 
-"Programming" , "Bussness" , " Fashion"  , "Sport" , "LifeStyle" , "Naure"
+"Programming" , "bussness" , " Fashion"  , "Sport" , "LifeStyle" , "Naure"
 
 ]
-
 
     return (
         <Box sx={{color : "#FFF" , mt : {xs : "20px" , md : "0"}}}>
