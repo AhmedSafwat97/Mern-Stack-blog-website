@@ -8,9 +8,6 @@ const DiscriptionSec = () => {
         variant="h3"
         className="logo"
         sx={{ fontSize: "30px", fontWeight: "800", cursor: "pointer" , mb : "20px" }}
-        //   onClick={() => {
-        //     Navigat("/");
-        //   }}
       >
         WriteWave
       </Typography>
