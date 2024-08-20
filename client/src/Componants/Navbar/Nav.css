@@ -1,0 +1,14 @@
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+
+.mobileMenu{
+  animation: fadeIn 1s ease-in-out; /* Name, duration, and timing function */
+
+}
